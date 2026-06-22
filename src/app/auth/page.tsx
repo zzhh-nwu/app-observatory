@@ -2,73 +2,62 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, ArrowRight, AlertCircle } from "lucide-react";
+import { Mail, ArrowRight, AlertCircle, Hash } from "lucide-react";
 import { createClient } from "@/lib/supabase-client";
 
 export default function AuthPage() {
   const router = useRouter();
   const supabase = createClient();
 
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const [step, setStep] = useState<"email" | "code">("email");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // 第 1 步：发验证码
+  const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    if (!email.trim()) { setError("请输入邮箱地址"); return; }
     setLoading(true);
 
-    try {
-      if (mode === "register") {
-        const { error: signUpError, data } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { display_name: name, username: name },
-          },
-        });
-        if (signUpError) throw signUpError;
+    const { error: otpError } = await supabase.auth.signInWithOtp({
+      email,
+      options: { shouldCreateUser: true },
+    });
 
-        // 如果 Supabase 自动创建了 session（关闭了邮箱验证），直接登录
-        if (data.session) {
-          router.push("/");
-          router.refresh();
-          return;
-        }
-
-        // 否则邮箱验证开启，尝试立即登录（某些配置下仍可成功）
-        const { error: autoLoginError } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        if (!autoLoginError) {
-          router.push("/");
-          router.refresh();
-          return;
-        }
-
-        // 两种方式都失败，提示用户
-        setError("注册成功！如果收不到验证邮件，请在 Supabase 后台关闭 Email Confirmations。");
-      } else {
-        const { error: signInError } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        if (signInError) throw signInError;
-        router.push("/");
-        router.refresh();
-      }
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "操作失败";
-      setError(message);
-    } finally {
-      setLoading(false);
+    setLoading(false);
+    if (otpError) {
+      setError(otpError.message);
+    } else {
+      setStep("code");
     }
   };
 
+  // 第 2 步：验证码登录
+  const handleVerifyCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    if (!code.trim()) { setError("请输入验证码"); return; }
+    setLoading(true);
+
+    const { error: verifyError } = await supabase.auth.verifyOtp({
+      email,
+      token: code,
+      type: "email",
+    });
+
+    setLoading(false);
+    if (verifyError) {
+      setError(verifyError.message);
+    } else {
+      router.push("/");
+      router.refresh();
+    }
+  };
+
+  // GitHub OAuth（保留，可覆盖邮箱验证码/密码登录的不足）
   const handleOAuth = async (provider: "github" | "google") => {
     setLoading(true);
     const { error: oauthError } = await supabase.auth.signInWithOAuth({
@@ -88,127 +77,119 @@ export default function AuthPage() {
           className="text-xs tracking-widest uppercase text-[#525252] mb-3 font-medium"
           style={{ fontFamily: "var(--font-mono), 'JetBrains Mono', monospace" }}
         >
-          账户
+          {step === "email" ? "登录 / 注册" : "验证邮箱"}
         </p>
         <h1
           className="text-3xl font-bold tracking-tight"
           style={{ fontFamily: "var(--font-serif-display), 'Playfair Display', Georgia, serif" }}
         >
-          {mode === "login" ? "欢迎回来" : "加入拆解"}
+          {step === "email" ? "加入拆解" : "输入验证码"}
         </h1>
         <p className="text-[#525252] text-sm mt-2">
-          {mode === "login" ? "登录你的账号，继续评测之旅。" : "注册成为社区成员，开始分享你的 App 见解。"}
+          {step === "email"
+            ? "输入邮箱，收到 6 位验证码后即可登录（新用户自动注册）。"
+            : `验证码已发送至 ${email}`}
         </p>
-      </div>
-
-      {/* Tab */}
-      <div className="flex border-2 border-black mb-6">
-        <button
-          onClick={() => { setMode("login"); setError(""); }}
-          className={`flex-1 py-3 text-sm font-medium transition-colors duration-100 ${
-            mode === "login" ? "bg-black text-white" : "text-[#525252] hover:text-black"
-          }`}
-        >
-          登录
-        </button>
-        <button
-          onClick={() => { setMode("register"); setError(""); }}
-          className={`flex-1 py-3 text-sm font-medium transition-colors duration-100 ${
-            mode === "register" ? "bg-black text-white" : "text-[#525252] hover:text-black"
-          }`}
-        >
-          注册
-        </button>
       </div>
 
       {/* Error */}
       {error && (
-        <div
-          className={`flex items-start gap-2 p-3 border-2 mb-5 text-sm ${
-            error.includes("邮件")
-              ? "border-black bg-black text-white"
-              : "border-black text-black bg-white"
-          }`}
-        >
+        <div className="flex items-start gap-2 p-3 border-2 border-black text-black bg-white mb-5 text-sm">
           <AlertCircle size={16} strokeWidth={1.5} className="shrink-0 mt-0.5" />
           <span>{error}</span>
         </div>
       )}
 
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {mode === "register" && (
+      {/* 第 1 步：输入邮箱 */}
+      {step === "email" && (
+        <form onSubmit={handleSendCode} className="space-y-4">
           <div>
             <label
               className="block text-xs tracking-widest uppercase text-[#525252] font-medium mb-2"
               style={{ fontFamily: "var(--font-mono), 'JetBrains Mono', monospace" }}
             >
-              昵称
+              邮箱地址
             </label>
             <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="你的显示名称"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="your@email.com"
               required
+              autoFocus
               className="w-full h-12 px-4 border-2 border-black bg-white text-sm
                          placeholder:text-[#A3A3A3]
                          focus:border-4 focus:outline-none transition-all duration-100"
             />
           </div>
-        )}
 
-        <div>
-          <label
-            className="block text-xs tracking-widest uppercase text-[#525252] font-medium mb-2"
-            style={{ fontFamily: "var(--font-mono), 'JetBrains Mono', monospace" }}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-black text-white border-2 border-black px-6 py-4 text-sm font-medium
+                       tracking-widest uppercase transition-colors duration-100
+                       hover:bg-white hover:text-black inline-flex items-center justify-center gap-2
+                       disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            邮箱
-          </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="your@email.com"
-            required
-            className="w-full h-12 px-4 border-2 border-black bg-white text-sm
-                       placeholder:text-[#A3A3A3]
-                       focus:border-4 focus:outline-none transition-all duration-100"
-          />
-        </div>
+            {loading ? "发送中…" : "发送验证码"}
+            <Mail size={14} strokeWidth={2} />
+          </button>
 
-        <div>
-          <label
-            className="block text-xs tracking-widest uppercase text-[#525252] font-medium mb-2"
-            style={{ fontFamily: "var(--font-mono), 'JetBrains Mono', monospace" }}
+          {error && (
+            <p className="text-xs text-[#525252] text-center">
+              没收到？检查垃圾箱，或确认 QQ 邮箱已开通 SMTP 服务。
+            </p>
+          )}
+        </form>
+      )}
+
+      {/* 第 2 步：输入验证码 */}
+      {step === "code" && (
+        <form onSubmit={handleVerifyCode} className="space-y-4">
+          <div>
+            <label
+              className="block text-xs tracking-widest uppercase text-[#525252] font-medium mb-2"
+              style={{ fontFamily: "var(--font-mono), 'JetBrains Mono', monospace" }}
+            >
+              6 位验证码
+            </label>
+            <input
+              type="text"
+              value={code}
+              onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+              placeholder="000000"
+              required
+              autoFocus
+              maxLength={6}
+              inputMode="numeric"
+              className="w-full h-16 px-4 border-2 border-black bg-white text-3xl font-bold tracking-[0.5em] text-center
+                         placeholder:text-[#D4D4D4]
+                         focus:border-4 focus:outline-none transition-all duration-100"
+              style={{ fontFamily: "var(--font-mono), 'JetBrains Mono', monospace" }}
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading || code.length !== 6}
+            className="w-full bg-black text-white border-2 border-black px-6 py-4 text-sm font-medium
+                       tracking-widest uppercase transition-colors duration-100
+                       hover:bg-white hover:text-black inline-flex items-center justify-center gap-2
+                       disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            密码
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="至少8位字符"
-            required
-            minLength={8}
-            className="w-full h-12 px-4 border-2 border-black bg-white text-sm
-                       placeholder:text-[#A3A3A3]
-                       focus:border-4 focus:outline-none transition-all duration-100"
-          />
-        </div>
+            {loading ? "验证中…" : "确认登录"}
+            <Hash size={14} strokeWidth={2} />
+          </button>
 
-        <button
-          className="w-full bg-black text-white border-2 border-black px-6 py-4 text-sm font-medium
-                     tracking-widest uppercase transition-colors duration-100
-                     hover:bg-white hover:text-black inline-flex items-center justify-center gap-2
-                     disabled:opacity-50 disabled:cursor-not-allowed"
-          type="submit"
-          disabled={loading}
-        >
-          {loading ? "处理中…" : mode === "login" ? "登录" : "注册"}
-          <ArrowRight size={14} strokeWidth={2} />
-        </button>
-      </form>
+          <button
+            type="button"
+            onClick={() => { setStep("email"); setError(""); setCode(""); }}
+            className="w-full text-sm text-[#525252] underline underline-offset-4 hover:text-black"
+          >
+            返回修改邮箱
+          </button>
+        </form>
+      )}
 
       {/* Divider */}
       <div className="relative my-8">
@@ -220,7 +201,7 @@ export default function AuthPage() {
         </div>
       </div>
 
-      {/* OAuth */}
+      {/* GitHub OAuth */}
       <button
         onClick={() => handleOAuth("github")}
         disabled={loading}
@@ -236,7 +217,7 @@ export default function AuthPage() {
       </button>
 
       <p className="text-xs text-[#A3A3A3] text-center mt-8">
-        登录即表示同意我们的服务条款和隐私政策
+        新用户首次登录即自动注册 · 验证码 10 分钟内有效
       </p>
     </div>
   );
