@@ -2,99 +2,108 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "拆解 · 概念海报",
-  description: "将完整之物分解为零件，理解其构造。",
+  description: "为了理解，先毁灭完整。",
 };
 
 export default function PosterPage() {
   return (
-    <div className="min-h-screen bg-[#f8f5f0] flex items-center justify-center p-4 md:p-8">
-      {/* ============================================================
-           海报主体 — A2 比例 (≈1:1.414)
-           ============================================================ */}
-      <div className="relative w-full max-w-[720px] aspect-[1/1.4] bg-[#f8f5f0] overflow-hidden"
-           style={{ boxShadow: "0 4px 60px rgba(0,0,0,0.12)" }}>
+    <div className="min-h-screen flex items-center justify-center p-3 md:p-6"
+         style={{ background: "#1a1a1a" }}>
 
-        {/* 纸张纹理 */}
-        <SVGFilter />
-        <div className="absolute inset-0 pointer-events-none opacity-[0.035]"
-             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }}
+      {/* ================================================================
+           海报画布
+           ================================================================ */}
+      <div className="relative w-full max-w-[680px] aspect-[1/1.4] overflow-hidden"
+           style={{
+             background: "#C41E3A",
+             boxShadow: "0 8px 80px rgba(0,0,0,0.45)",
+           }}>
+
+        {/* ---- 丝网印刷噪点 ---- */}
+        <div className="absolute inset-0 pointer-events-none"
+             style={{
+               backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 320 320' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+               opacity: 0.06,
+               mixBlendMode: "multiply",
+             }}
         />
 
         {/* ================================================================
-             主视觉层 1：拆分字骨
+             主视觉层 1：巨大白色文字
              ================================================================ */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="relative"
-               style={{ transform: "translateY(-3%)" }}>
-            {/* 字间距离拉大 — 模拟拆解 */}
-            <h1 className="flex items-baseline justify-center"
-                style={{
-                  fontFamily: "'Noto Serif SC', 'Source Han Serif SC', 'SimSun', 'STSong', Georgia, serif",
-                  fontSize: "clamp(9rem, 18vw, 15rem)",
-                  fontWeight: 900,
-                  letterSpacing: "0.35em",
-                  color: "#1a1a1a",
-                  lineHeight: 1,
-                }}>
-              <span style={{ display: "inline-block" }}>拆</span>
-              <span style={{ display: "inline-block", marginLeft: "0.1em" }}>解</span>
-            </h1>
+        <div className="absolute inset-0 flex items-center justify-center"
+             style={{ paddingTop: "5%" }}>
+          <div className="relative">
+            {/* 「拆」— 完整 */}
+            <span style={{
+              fontFamily: "'Noto Serif SC', 'STSong', 'SimSun', serif",
+              fontSize: "clamp(8rem, 16vw, 14rem)",
+              fontWeight: 900,
+              color: "#F5F0E8",
+              lineHeight: 1,
+              letterSpacing: "0.04em",
+            }}>
+              拆
+            </span>
+            {/* 「解」— 正在拆散 */}
+            <span style={{
+              fontFamily: "'Noto Serif SC', 'STSong', 'SimSun', serif",
+              fontSize: "clamp(8rem, 16vw, 14rem)",
+              fontWeight: 900,
+              color: "#F5F0E8",
+              lineHeight: 1,
+              letterSpacing: "0.2em",
+              position: "relative",
+            }}>
+              解
+            </span>
+
+            {/* 碎片：从「解」字剥离的几何片 */}
+            <Fragments />
           </div>
         </div>
 
         {/* ================================================================
-             视觉层 2：爆炸图 + 技术标注
+             主视觉层 2：爆炸几何体
              ================================================================ */}
-        {/* 十字定位线 */}
-        <Crosshair x="82%" y="18%" />
-        <Crosshair x="18%" y="78%" />
-
-        {/* 红线：分析的目光 */}
-        <div className="absolute" style={{ left: "14%", top: "22%", width: "3px", height: "48px", background: "#c41e3a", opacity: 0.7 }} />
-        <div className="absolute" style={{ left: "14%", top: "22%", width: "28px", height: "3px", background: "#c41e3a", opacity: 0.7 }} />
-
-        {/* 爆炸立方体 — 右上角 */}
-        <ExplodedCube />
-
-        {/* 技术标注线 */}
-        <AnnotLine x1={62} y1={21} x2={68} y2={21} label="观察" />
-        <AnnotLine x1={18} y1={82} x2={26} y2={82} label="分析" />
-        <AnnotLine x1={78} y1={64} x2={85} y2={64} label="重构" />
-
-        {/* 量角 / 尺度标记 */}
-        <DimensionMark x={74} y={40} />
+        <ExplodedGeometry />
 
         {/* ================================================================
-             视觉层 3：辅助文字
+             主视觉层 3：辅助文字
              ================================================================ */}
-        {/* 底部左下 */}
-        <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12">
-          <p className="text-xs md:text-sm font-medium tracking-[0.3em] uppercase"
-             style={{ fontFamily: "'JetBrains Mono', 'Courier New', monospace", color: "#666" }}>
-            拆解 · Deconstruct
-          </p>
-          <p className="text-[10px] md:text-xs mt-2 tracking-[0.2em]"
-             style={{ fontFamily: "'JetBrains Mono', 'Courier New', monospace", color: "#999" }}>
-            数字经济课程实践项目 · 2026
+        {/* 顶部左 */}
+        <div className="absolute top-6 left-6 md:top-10 md:left-10">
+          <p className="text-[9px] md:text-[10px] tracking-[0.3em] uppercase font-medium"
+             style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(245,240,232,0.45)" }}>
+            DECONSTRUCT · 2026
           </p>
         </div>
 
-        {/* 底部右下 */}
-        <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 text-right">
-          <p className="text-[11px] md:text-xs font-medium tracking-wider leading-relaxed"
-             style={{ fontFamily: "'Noto Serif SC', Georgia, serif", color: "#555", maxWidth: "200px" }}>
-            将完整之物分解为零件，
+        {/* 底部左 */}
+        <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10">
+          <p className="text-[10px] md:text-[11px] tracking-[0.25em] leading-relaxed font-medium"
+             style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(245,240,232,0.5)" }}>
+            TO UNDERSTAND,
             <br />
-            理解其构造。
+            DESTROY THE WHOLE.
           </p>
         </div>
 
-        {/* 顶部右上标签 */}
-        <div className="absolute top-8 right-8 md:top-12 md:right-12">
-          <p className="text-[10px] tracking-[0.25em] uppercase"
-             style={{ fontFamily: "'JetBrains Mono', monospace", color: "#c41e3a", fontWeight: 500 }}>
-            Vol. 01
+        {/* 底部右 */}
+        <div className="absolute bottom-6 right-6 md:bottom-10 md:right-10 text-right">
+          <p className="text-[10px] md:text-[11px] leading-relaxed"
+             style={{ fontFamily: "'Noto Serif SC', 'STSong', serif", color: "rgba(245,240,232,0.45)", maxWidth: 160 }}>
+            为了理解，
+            <br />
+            先毁灭完整。
           </p>
+          <div className="mt-3 flex items-center justify-end gap-2">
+            <div style={{ width: 14, height: 1, background: "rgba(245,240,232,0.3)" }} />
+            <span className="text-[8px] tracking-[0.2em]"
+                  style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(245,240,232,0.3)" }}>
+              VOL.01
+            </span>
+          </div>
         </div>
 
       </div>
@@ -103,119 +112,80 @@ export default function PosterPage() {
 }
 
 /* ================================================================
-   内联组件
+   碎片：从「解」字剥离
    ================================================================ */
+function Fragments() {
+  const shards = [
+    { x: 82, y: 12, w: 28, h: 5, rot: -15, opacity: 0.55 },
+    { x: 88, y: 5, w: 18, h: 4, rot: 22, opacity: 0.45 },
+    { x: 86, y: 18, w: 14, h: 3, rot: 8, opacity: 0.5 },
+    { x: 76, y: 2, w: 10, h: 3, rot: -30, opacity: 0.35 },
+    { x: 90, y: 24, w: 20, h: 4, rot: -5, opacity: 0.4 },
+  ];
 
-/** 十字定位线 */
-function Crosshair({ x, y }: { x: string; y: string }) {
-  const size = 16;
   return (
-    <div className="absolute pointer-events-none" style={{ left: x, top: y, transform: "translate(-50%,-50%)" }}>
-      {/* 竖线 */}
-      <div className="absolute left-1/2 -translate-x-1/2" style={{ width: "1px", height: size, background: "#ccc" }} />
-      {/* 横线 */}
-      <div className="absolute top-1/2 -translate-y-1/2" style={{ height: "1px", width: size, background: "#ccc" }} />
-      {/* 中心圆 */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-           style={{ width: 4, height: 4, border: "1px solid #bbb" }} />
-    </div>
-  );
-}
-
-/** 标注线 */
-function AnnotLine({ x1, y1, x2, y2, label }: { x1: number; y1: number; x2: number; y2: number; label: string }) {
-  const isRight = x2 > x1;
-  return (
-    <div className="absolute pointer-events-none flex items-center"
-         style={{ left: `${x1}%`, top: `${y1}%` }}>
-      {/* 线 */}
-      <div style={{
-        width: `${Math.abs(x2 - x1) * 0.7}vw`,
-        maxWidth: 60,
-        height: "1px",
-        background: "#bbb",
-        marginRight: isRight ? 4 : 0,
-        marginLeft: !isRight ? 4 : 0,
-      }} />
-      {/* 端点 */}
-      <div style={{ width: 3, height: 3, background: "#bbb", borderRadius: "50%" }} />
-      {/* 标签 */}
-      <span className="text-[10px] tracking-[0.15em] ml-2"
-            style={{ fontFamily: "'JetBrains Mono', monospace", color: "#999" }}>
-        {label}
-      </span>
-    </div>
-  );
-}
-
-/** 量角/尺度标记 */
-function DimensionMark({ x, y }: { x: number; y: number }) {
-  return (
-    <div className="absolute pointer-events-none" style={{ left: `${x}%`, top: `${y}%` }}>
-      {[0, 2, 4, 6, 8].map((i) => (
-        <div key={i} className="flex items-center gap-1 mb-0.5">
-          <div style={{ width: 6, height: 1, background: "#ccc" }} />
-          <span className="text-[8px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#bbb" }}>{i}</span>
-        </div>
+    <div className="absolute pointer-events-none" style={{ top: 0, right: "-4%", width: "35%", height: "50%" }}>
+      {shards.map((s, i) => (
+        <div key={i} className="absolute"
+             style={{
+               left: `${s.x}%`,
+               top: `${s.y}%`,
+               width: `${s.w}px`,
+               height: `${s.h}px`,
+               background: "#F5F0E8",
+               opacity: s.opacity,
+               transform: `rotate(${s.rot}deg)`,
+             }}
+        />
       ))}
+      {/* 更远的小碎片 */}
+      <div className="absolute" style={{ left: "92%", top: "10%", width: 6, height: 6, background: "#F5F0E8", opacity: 0.2, transform: "rotate(45deg)" }} />
+      <div className="absolute" style={{ left: "95%", top: "2%", width: 4, height: 4, background: "#F5F0E8", opacity: 0.15, transform: "rotate(60deg)" }} />
     </div>
   );
 }
 
-/** 爆炸立方体 SVG */
-function ExplodedCube() {
+/* ================================================================
+   爆炸几何体 — 右下角
+   ================================================================ */
+function ExplodedGeometry() {
   return (
-    <div className="absolute pointer-events-none" style={{ right: "10%", top: "14%" }}>
-      <svg width="140" height="130" viewBox="0 0 140 130" xmlns="http://www.w3.org/2000/svg">
-        {/* 爆炸线：用虚线连接零件 */}
-        <g stroke="#bbb" strokeWidth="0.6" strokeDasharray="3 2" fill="none" opacity="0.5">
-          <line x1="55" y1="50" x2="55" y2="85" />
-          <line x1="55" y1="50" x2="20" y2="70" />
-          <line x1="55" y1="50" x2="90" y2="70" />
-          <line x1="55" y1="50" x2="55" y2="20" />
+    <div className="absolute pointer-events-none" style={{ right: "10%", bottom: "18%" }}>
+      <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        {/* 虚线：原位的痕迹 */}
+        <g stroke="rgba(245,240,232,0.2)" strokeWidth="0.6" strokeDasharray="2 3" fill="none">
+          <line x1="32" y1="32" x2="20" y2="20" />
+          <line x1="32" y1="32" x2="48" y2="22" />
+          <line x1="32" y1="32" x2="44" y2="46" />
         </g>
 
-        {/* 顶面 — 上移 */}
-        <g transform="translate(0, -8)">
-          <polygon points="55,18 90,38 55,58 20,38" fill="none" stroke="#1a1a1a" strokeWidth="1.2" />
-          <circle cx="55" cy="38" r="1.5" fill="#c41e3a" opacity="0.6" />
+        {/* 碎片 A — 左上飘 */}
+        <g transform="translate(14, 14)">
+          <polygon points="0,0 12,0 12,12 0,12" fill="none" stroke="#F5F0E8" strokeWidth="1.2" opacity="0.6" />
+          <line x1="0" y1="6" x2="12" y2="6" stroke="#F5F0E8" strokeWidth="0.4" opacity="0.3" />
         </g>
 
-        {/* 前面 — 下移 */}
-        <g transform="translate(0, 12)">
-          <polygon points="55,58 55,95 20,75 20,38" fill="none" stroke="#1a1a1a" strokeWidth="1.2" />
-          <circle cx="38" cy="56" r="1.5" fill="#1a1a1a" opacity="0.4" />
+        {/* 碎片 B — 右上飘 */}
+        <g transform="translate(42, 16)">
+          <polygon points="0,0 14,0 14,14 0,14" fill="none" stroke="#F5F0E8" strokeWidth="1.2" opacity="0.6" />
+          <line x1="7" y1="0" x2="7" y2="14" stroke="#F5F0E8" strokeWidth="0.4" opacity="0.3" />
         </g>
 
-        {/* 右面 — 右移 */}
-        <g transform="translate(10, 4)">
-          <polygon points="55,58 90,78 90,38 55,18" fill="none" stroke="#1a1a1a" strokeWidth="1.2" />
-          <circle cx="72" cy="48" r="1.5" fill="#1a1a1a" opacity="0.4" />
+        {/* 碎片 C — 下方飘 */}
+        <g transform="translate(38, 40)">
+          <polygon points="0,0 14,0 14,14 0,14" fill="none" stroke="#F5F0E8" strokeWidth="1.2" opacity="0.6" />
+          <line x1="0" y1="7" x2="14" y2="7" stroke="#F5F0E8" strokeWidth="0.4" opacity="0.3" />
         </g>
 
-        {/* 中心原点 */}
-        <circle cx="55" cy="42" r="2.5" fill="#1a1a1a" />
+        {/* 中心原点 — 爆炸的起点 */}
+        <circle cx="32" cy="32" r="2.8" fill="none" stroke="#F5F0E8" strokeWidth="1.5" opacity="0.7" />
+        <circle cx="32" cy="32" r="0.8" fill="#F5F0E8" opacity="0.5" />
       </svg>
-      {/* 标签 */}
-      <p className="text-center text-[9px] tracking-[0.2em] mt-1"
-         style={{ fontFamily: "'JetBrains Mono', monospace", color: "#999" }}>
-        EXPLODED VIEW
+
+      <p className="text-[8px] tracking-[0.25em] mt-1 text-center"
+         style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(245,240,232,0.25)" }}>
+        FIG.1 — EXPLODED
       </p>
     </div>
-  );
-}
-
-/** SVG 纹理滤镜（隐藏DOM元素） */
-function SVGFilter() {
-  return (
-    <svg width="0" height="0" style={{ position: "absolute" }}>
-      <defs>
-        <filter id="paper-grain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch" />
-          <feColorMatrix type="saturate" values="0" />
-          <feBlend in="SourceGraphic" mode="multiply" />
-        </filter>
-      </defs>
-    </svg>
   );
 }
