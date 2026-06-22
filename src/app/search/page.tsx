@@ -1,13 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
 import { AppCard } from "@/components/ui/app-card";
 import { ReviewCard } from "@/components/ui/review-card";
 import { mockApps, mockReviews } from "@/lib/mock-data";
 
 export default function SearchPage() {
-  const [query, setQuery] = useState("");
+  return (
+    <Suspense fallback={
+      <div className="mx-auto max-w-4xl px-6 py-20 text-center">
+        <div className="skeleton h-14 w-full max-w-md mx-auto" />
+      </div>
+    }>
+      <SearchContent />
+    </Suspense>
+  );
+}
+
+function SearchContent() {
+  const searchParams = useSearchParams();
+  const initialQ = searchParams.get("q") || "";
+  const [query, setQuery] = useState(initialQ);
 
   const filteredApps = query
     ? mockApps.filter(
@@ -31,30 +46,35 @@ export default function SearchPage() {
   const hasResults = filteredApps.length > 0 || filteredReviews.length > 0;
 
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-8">
-      {/* Search input */}
-      <div className="relative mb-8">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+    <div className="mx-auto max-w-4xl px-6 lg:px-12 py-10">
+      <div className="relative mb-10">
+        <Search size={20} strokeWidth={1.5} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#A3A3A3]" />
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="搜索 App 名称、评测标题、作者…"
+          placeholder="搜索 App 名称、评测标题…"
           autoFocus
-          className="w-full h-14 pl-12 pr-4 rounded-2xl border border-border bg-card text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+          className="w-full h-14 pl-12 pr-4 border-2 border-black bg-white text-base
+                     placeholder:text-[#A3A3A3] placeholder:italic
+                     focus:border-4 focus:outline-none transition-all duration-100"
         />
       </div>
 
       {!query && (
-        <div className="text-center py-16">
-          <span className="text-5xl">🔍</span>
-          <p className="text-muted-foreground mt-3">输入关键词开始搜索</p>
-          <div className="flex items-center justify-center gap-2 mt-4 flex-wrap">
+        <div className="text-center py-20">
+          <p className="text-6xl font-bold text-[#D4D4D4]"
+            style={{ fontFamily: "var(--font-serif-display), 'Playfair Display', Georgia, serif" }}
+          >
+            ?
+          </p>
+          <p className="text-[#525252] mt-4 text-lg">输入关键词开始搜索</p>
+          <div className="flex items-center justify-center gap-2 mt-5 flex-wrap">
             {["AI", "隐私", "开源", "效率", "社交"].map((tag) => (
               <button
                 key={tag}
                 onClick={() => setQuery(tag)}
-                className="px-3 py-1.5 rounded-full bg-muted text-sm hover:bg-primary/10 hover:text-primary transition-colors"
+                className="px-4 py-1.5 border border-black text-sm hover:bg-black hover:text-white transition-colors duration-100"
               >
                 {tag}
               </button>
@@ -64,24 +84,27 @@ export default function SearchPage() {
       )}
 
       {query && !hasResults && (
-        <div className="text-center py-16">
-          <span className="text-5xl">🤷</span>
-          <p className="text-muted-foreground mt-3">
-            没有找到与「{query}」相关的结果
+        <div className="text-center py-20">
+          <p className="text-6xl font-bold text-[#D4D4D4]"
+            style={{ fontFamily: "var(--font-serif-display), 'Playfair Display', Georgia, serif" }}
+          >
+            —
           </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            试试其他关键词，或者去提交新的App
-          </p>
+          <p className="text-[#525252] mt-4">没有找到与「{query}」相关的结果</p>
+          <p className="text-xs text-[#A3A3A3] mt-1">试试其他关键词。</p>
         </div>
       )}
 
       {query && hasResults && (
-        <div className="space-y-8">
+        <div className="space-y-10">
           {filteredApps.length > 0 && (
             <section>
-              <h2 className="text-lg font-semibold mb-4">
-                📱 App 结果
-                <span className="text-muted-foreground text-sm font-normal ml-2">
+              <h2
+                className="text-xl font-bold mb-4 tracking-tight"
+                style={{ fontFamily: "var(--font-serif-display), 'Playfair Display', Georgia, serif" }}
+              >
+                App 结果
+                <span className="text-[#525252] text-sm font-normal ml-2">
                   ({filteredApps.length})
                 </span>
               </h2>
@@ -95,9 +118,12 @@ export default function SearchPage() {
 
           {filteredReviews.length > 0 && (
             <section>
-              <h2 className="text-lg font-semibold mb-4">
-                📝 评测结果
-                <span className="text-muted-foreground text-sm font-normal ml-2">
+              <h2
+                className="text-xl font-bold mb-4 tracking-tight"
+                style={{ fontFamily: "var(--font-serif-display), 'Playfair Display', Georgia, serif" }}
+              >
+                评测结果
+                <span className="text-[#525252] text-sm font-normal ml-2">
                   ({filteredReviews.length})
                 </span>
               </h2>

@@ -1,4 +1,6 @@
-import { Suspense } from "react";
+"use client";
+
+import { useState, Suspense } from "react";
 import { AppCard } from "@/components/ui/app-card";
 import { mockApps } from "@/lib/mock-data";
 import { AppCategory } from "@/lib/types";
@@ -14,28 +16,66 @@ const categories: { label: string; value: AppCategory | "全部" }[] = [
   { label: "健康生活", value: "健康生活" },
   { label: "游戏娱乐", value: "游戏娱乐" },
   { label: "开发者工具", value: "开发者工具" },
+  { label: "更多其它", value: "全部" },
+];
+
+type SortKey = "rating" | "reviews" | "newest" | "privacy";
+
+const sorts: { label: string; key: SortKey }[] = [
+  { label: "综合评分", key: "rating" },
+  { label: "最多评测", key: "reviews" },
+  { label: "最新收录", key: "newest" },
+  { label: "隐私最佳", key: "privacy" },
 ];
 
 export default function AppsPage() {
   return (
-    <div className="container mx-auto max-w-6xl px-4 py-8">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">App 数据库</h1>
-        <p className="text-muted-foreground">
-          浏览社区收录的所有App，按分类和标签筛选
-        </p>
+    <Suspense fallback={<AppGridSkeleton />}>
+      <AppsContent />
+    </Suspense>
+  );
+}
+
+function AppsContent() {
+  const [activeCat, setActiveCat] = useState<AppCategory | "全部">("全部");
+  const [activeSort, setActiveSort] = useState<SortKey>("rating");
+
+  let filtered = activeCat === "全部"
+    ? [...mockApps]
+    : mockApps.filter((a) => a.category === activeCat);
+
+  filtered.sort((a, b) => {
+    switch (activeSort) {
+      case "rating": return b.scores.overall - a.scores.overall;
+      case "reviews": return b.reviewCount - a.reviewCount;
+      case "newest": return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      case "privacy": return b.scores.privacy - a.scores.privacy;
+      default: return 0;
+    }
+  });
+
+  return (
+    <div className="mx-auto max-w-6xl px-6 lg:px-12 py-10">
+      <div className="mb-10">
+        <p className="text-xs tracking-widest uppercase text-[#525252] mb-3 font-medium"
+          style={{ fontFamily: "var(--font-mono), 'JetBrains Mono', monospace" }}
+        >数据库</p>
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight"
+          style={{ fontFamily: "var(--font-serif-display), 'Playfair Display', Georgia, serif" }}
+        >App 库</h1>
+        <p className="mt-2 text-[#525252]">浏览社区收录的所有 App，按分类和标签筛选。</p>
       </div>
 
-      {/* Category filters */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-6 scrollbar-hide">
+      {/* 分类筛选 */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-6 mb-6">
         {categories.map((cat) => (
           <button
-            key={cat.value}
-            className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium border transition-colors whitespace-nowrap
-              ${cat.value === "全部"
-                ? "bg-primary text-primary-foreground border-primary"
-                : "bg-card text-muted-foreground border-border hover:border-primary/30 hover:text-primary"
+            key={cat.label}
+            onClick={() => setActiveCat(cat.value)}
+            className={`shrink-0 px-4 py-1.5 text-xs font-medium border border-black transition-colors duration-100 whitespace-nowrap
+              ${activeCat === cat.value
+                ? "bg-black text-white"
+                : "bg-white text-black hover:bg-black hover:text-white"
               }`}
           >
             {cat.label}
@@ -43,34 +83,42 @@ export default function AppsPage() {
         ))}
       </div>
 
-      {/* Sort options */}
-      <div className="flex items-center gap-3 mb-6">
-        <span className="text-sm text-muted-foreground">排序：</span>
-        {["综合评分", "最多评测", "最新收录", "隐私最佳"].map((sort) => (
+      {/* 排序 */}
+      <div className="flex items-center gap-3 mb-8">
+        <span className="text-xs tracking-widest uppercase text-[#525252] font-medium"
+          style={{ fontFamily: "var(--font-mono), 'JetBrains Mono', monospace" }}
+        >排序</span>
+        {sorts.map((s) => (
           <button
-            key={sort}
-            className="text-sm px-3 py-1.5 rounded-lg bg-card border border-border hover:border-primary/30 transition-colors"
+            key={s.key}
+            onClick={() => setActiveSort(s.key)}
+            className={`text-sm px-3 py-1.5 border border-black transition-colors duration-100
+              ${activeSort === s.key
+                ? "bg-black text-white"
+                : "bg-white text-black hover:bg-black hover:text-white"
+              }`}
           >
-            {sort}
+            {s.label}
           </button>
         ))}
       </div>
 
-      {/* App grid */}
-      <Suspense fallback={<AppGridSkeleton />}>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {mockApps.map((app) => (
-            <AppCard key={app.id} app={app} />
-          ))}
-        </div>
-      </Suspense>
+      {/* 结果计数 */}
+      <p className="text-xs text-[#525252] mb-4">共 {filtered.length} 款 App</p>
 
-      {/* Empty state placeholder */}
-      {mockApps.length === 0 && (
+      {/* Grid */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {filtered.map((app) => (
+          <AppCard key={app.id} app={app} />
+        ))}
+      </div>
+
+      {filtered.length === 0 && (
         <div className="text-center py-20">
-          <span className="text-6xl">📭</span>
-          <h3 className="text-xl font-semibold mt-4 mb-2">还没有App被收录</h3>
-          <p className="text-muted-foreground">成为第一个提交App的人吧！</p>
+          <h3 className="text-2xl font-bold mt-4 mb-2"
+            style={{ fontFamily: "var(--font-serif-display), 'Playfair Display', Georgia, serif" }}
+          >暂无收录</h3>
+          <p className="text-[#525252]">成为第一个提交 App 的人。</p>
         </div>
       )}
     </div>
@@ -79,19 +127,21 @@ export default function AppsPage() {
 
 function AppGridSkeleton() {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {Array.from({ length: 6 }).map((_, i) => (
-        <div key={i} className="p-4 rounded-xl border border-border">
-          <div className="flex gap-3">
-            <div className="skeleton w-12 h-12 rounded-xl" />
-            <div className="flex-1 space-y-2">
-              <div className="skeleton h-5 w-24" />
-              <div className="skeleton h-3 w-full" />
-              <div className="skeleton h-4 w-16" />
+    <div className="mx-auto max-w-6xl px-6 lg:px-12 py-10">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="p-4 border border-black">
+            <div className="flex gap-3">
+              <div className="skeleton w-12 h-12" />
+              <div className="flex-1 space-y-2">
+                <div className="skeleton h-5 w-24" />
+                <div className="skeleton h-3 w-full" />
+                <div className="skeleton h-4 w-16" />
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

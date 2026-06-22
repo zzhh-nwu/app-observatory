@@ -13,7 +13,7 @@ export function AppCard({ app, variant = "default" }: AppCardProps) {
     return (
       <Link
         href={`/apps/${app.slug}`}
-        className="flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 transition-colors group"
+        className="flex items-center gap-3 p-3 border border-black hover:bg-black hover:text-white transition-colors duration-100 group"
       >
         <span className="text-2xl shrink-0">{app.icon}</span>
         <div className="min-w-0 flex-1">
@@ -21,11 +21,11 @@ export function AppCard({ app, variant = "default" }: AppCardProps) {
             <span className="font-medium text-sm truncate">{app.name}</span>
             <PrivacyBadge level={app.privacyLevel} size="sm" />
           </div>
-          <p className="text-xs text-muted-foreground truncate">{app.tagline}</p>
+          <p className="text-xs text-[#525252] group-hover:text-white/70 truncate transition-colors duration-100">{app.tagline}</p>
         </div>
         <div className="text-right shrink-0">
-          <span className="text-sm font-bold text-primary">{app.scores.overall}</span>
-          <span className="text-xs text-muted-foreground">/10</span>
+          <span className="text-sm font-bold">{app.scores.overall}</span>
+          <span className="text-xs text-[#525252] group-hover:text-white/70 transition-colors duration-100">/10</span>
         </div>
       </Link>
     );
@@ -35,22 +35,29 @@ export function AppCard({ app, variant = "default" }: AppCardProps) {
     return (
       <Link
         href={`/apps/${app.slug}`}
-        className="block p-5 rounded-2xl bg-card border border-border hover:shadow-lg hover:border-primary/20 transition-all duration-300 group"
+        className="block p-6 border-2 border-black hover:bg-black hover:text-white transition-colors duration-100 group"
       >
         <div className="flex items-start gap-4">
           <span className="text-4xl shrink-0">{app.icon}</span>
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="font-bold text-lg">{app.name}</h3>
+              <h3
+                className="font-bold text-lg"
+                style={{ fontFamily: "var(--font-serif-display), 'Playfair Display', Georgia, serif" }}
+              >
+                {app.name}
+              </h3>
               <PrivacyBadge level={app.privacyLevel} />
-              <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">
+              <span className="text-xs border border-black px-2 py-0.5 font-medium group-hover:border-white transition-colors duration-100">
                 #{app.reviewCount}篇评测
               </span>
             </div>
-            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{app.tagline}</p>
+            <p className="text-sm text-[#525252] mt-1 line-clamp-2 group-hover:text-white/70 transition-colors duration-100">
+              {app.tagline}
+            </p>
             <div className="flex items-center gap-3 mt-3">
               <StarRating rating={app.scores.overall} maxRating={10} />
-              <span className="text-lg font-bold text-primary">{app.scores.overall}</span>
+              <span className="text-lg font-bold">{app.scores.overall}</span>
             </div>
           </div>
         </div>
@@ -62,20 +69,24 @@ export function AppCard({ app, variant = "default" }: AppCardProps) {
   return (
     <Link
       href={`/apps/${app.slug}`}
-      className="block p-4 rounded-xl bg-card border border-border hover:shadow-md hover:border-primary/20 transition-all duration-200 group"
+      className="block p-4 border border-black hover:bg-black hover:text-white transition-colors duration-100 group"
     >
       <div className="flex items-start gap-3">
         <span className="text-3xl shrink-0">{app.icon}</span>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <h3 className="font-semibold group-hover:text-primary transition-colors">{app.name}</h3>
+            <h3 className="font-semibold">{app.name}</h3>
             <PrivacyBadge level={app.privacyLevel} size="sm" />
           </div>
-          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{app.tagline}</p>
+          <p className="text-xs text-[#525252] mt-0.5 line-clamp-1 group-hover:text-white/70 transition-colors duration-100">
+            {app.tagline}
+          </p>
           <div className="flex items-center gap-2 mt-2">
             <StarRating rating={app.scores.overall} maxRating={10} size="sm" />
-            <span className="text-sm font-bold text-foreground">{app.scores.overall}</span>
-            <span className="text-xs text-muted-foreground">· {app.reviewCount}篇评测</span>
+            <span className="text-sm font-bold">{app.scores.overall}</span>
+            <span className="text-xs text-[#525252] group-hover:text-white/70 transition-colors duration-100">
+              · {app.reviewCount}篇评测
+            </span>
           </div>
         </div>
       </div>

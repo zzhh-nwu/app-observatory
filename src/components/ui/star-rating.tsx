@@ -21,12 +21,14 @@ export function StarRating({ rating, maxRating = 5, size = "md", showValue = fal
         <span key={i} className="relative inline-block">
           {/* 背景空心星 */}
           <Star
-            className={cn(sizeMap[size], "text-muted-foreground/30 fill-muted-foreground/10")}
+            className={cn(sizeMap[size], "text-[#D4D4D4]")}
+            strokeWidth={1.5}
           />
           {/* 实心覆盖层 */}
           {i < fullStars && (
             <Star
-              className={cn(sizeMap[size], "star-filled absolute inset-0 fill-current")}
+              className={cn(sizeMap[size], "text-black absolute inset-0 fill-black")}
+              strokeWidth={1.5}
             />
           )}
           {i === fullStars && fractionalStar > 0 && (
@@ -34,13 +36,13 @@ export function StarRating({ rating, maxRating = 5, size = "md", showValue = fal
               className="absolute inset-0 overflow-hidden"
               style={{ width: `${fractionalStar * 100}%` }}
             >
-              <Star className={cn(sizeMap[size], "star-filled fill-current")} />
+              <Star className={cn(sizeMap[size], "text-black fill-black")} strokeWidth={1.5} />
             </span>
           )}
         </span>
       ))}
       {showValue && (
-        <span className="ml-1 text-sm font-medium text-muted-foreground">
+        <span className="ml-1 text-sm font-medium text-[#525252]">
           {rating}
         </span>
       )}

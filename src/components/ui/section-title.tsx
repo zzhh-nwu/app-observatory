@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 interface SectionTitleProps {
   title: string;
@@ -10,20 +10,25 @@ interface SectionTitleProps {
 
 export function SectionTitle({ title, description, moreLink, moreLabel }: SectionTitleProps) {
   return (
-    <div className="flex items-end justify-between mb-5">
+    <div className="flex items-end justify-between mb-6">
       <div>
-        <h2 className="text-xl font-bold">{title}</h2>
+        <p
+          className="text-xs tracking-widest uppercase text-[#525252] mb-2 font-medium"
+          style={{ fontFamily: "var(--font-mono), 'JetBrains Mono', monospace" }}
+        >
+          {title}
+        </p>
         {description && (
-          <p className="text-sm text-muted-foreground mt-1">{description}</p>
+          <p className="text-sm text-[#525252] mt-1">{description}</p>
         )}
       </div>
       {moreLink && (
         <Link
           href={moreLink}
-          className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline shrink-0"
+          className="inline-flex items-center gap-1 text-xs tracking-widest uppercase text-black hover:underline underline-offset-4 shrink-0 font-medium"
         >
-          {moreLabel || "查看全部"}
-          <ChevronRight className="h-4 w-4" />
+          {moreLabel || "全部"}
+          <ArrowRight size={14} strokeWidth={2} />
         </Link>
       )}
     </div>

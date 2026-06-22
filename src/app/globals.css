@@ -4,20 +4,24 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ================================================================
+   Minimalist Monochrome · 设计 Token
+   ================================================================ */
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
+  --font-sans: var(--font-serif-body);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-serif-display);
+  --color-sidebar-ring: var(--ring);
+  --color-sidebar-border: var(--border);
+  --color-sidebar-accent-foreground: var(--accent-foreground);
+  --color-sidebar-accent: var(--accent);
+  --color-sidebar-primary-foreground: var(--primary-foreground);
+  --color-sidebar-primary: var(--primary);
+  --color-sidebar-foreground: var(--foreground);
+  --color-sidebar: var(--background);
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
   --color-chart-3: var(--chart-3);
@@ -39,198 +43,136 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --color-brand-green: var(--brand-green);
-  --color-score-green: var(--score-green);
-  --color-warning: var(--warning);
-  --color-interact: var(--interact);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-4xl: 0;
 }
 
 :root {
-  /* 品牌色：科技蓝 + 验证绿 */
-  --primary: oklch(0.52 0.21 265);
-  --primary-foreground: oklch(0.99 0 0);
-  --brand-green: oklch(0.65 0.18 160);
-  --score-green: oklch(0.55 0.16 165);
-  --warning: oklch(0.64 0.21 30);
-  --interact: oklch(0.75 0.15 85);
-
-  /* 中性色 */
-  --background: oklch(0.985 0 0);
-  --foreground: oklch(0.18 0.01 260);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.01 260);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.01 260);
-  --secondary: oklch(0.96 0.005 260);
-  --secondary-foreground: oklch(0.25 0.01 260);
-  --muted: oklch(0.96 0.005 260);
-  --muted-foreground: oklch(0.5 0.01 260);
-  --accent: oklch(0.94 0.03 200);
-  --accent-foreground: oklch(0.18 0.01 260);
-  --destructive: oklch(0.58 0.21 27);
-  --border: oklch(0.9 0.005 260);
-  --input: oklch(0.9 0.005 260);
-  --ring: oklch(0.52 0.21 265);
-  --chart-1: oklch(0.52 0.21 265);
-  --chart-2: oklch(0.65 0.18 160);
-  --chart-3: oklch(0.75 0.15 85);
-  --chart-4: oklch(0.64 0.21 30);
-  --chart-5: oklch(0.55 0.16 165);
-  --radius: 0.75rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.18 0.01 260);
-  --sidebar-primary: oklch(0.52 0.21 265);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.96 0.005 260);
-  --sidebar-accent-foreground: oklch(0.18 0.01 260);
-  --sidebar-border: oklch(0.9 0.005 260);
-  --sidebar-ring: oklch(0.52 0.21 265);
+  /* 纯黑白调色板 */
+  --background: #FFFFFF;
+  --foreground: #000000;
+  --card: #FFFFFF;
+  --card-foreground: #000000;
+  --popover: #FFFFFF;
+  --popover-foreground: #000000;
+  --primary: #000000;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F5F5F5;
+  --secondary-foreground: #000000;
+  --muted: #F5F5F5;
+  --muted-foreground: #525252;
+  --accent: #000000;
+  --accent-foreground: #FFFFFF;
+  --destructive: #000000;
+  --border: #000000;
+  --input: #E5E5E5;
+  --ring: #000000;
+  --chart-1: #000000;
+  --chart-2: #333333;
+  --chart-3: #666666;
+  --chart-4: #999999;
+  --chart-5: #CCCCCC;
+  --radius: 0px;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #000000;
+  --sidebar-primary: #000000;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F5F5F5;
+  --sidebar-accent-foreground: #000000;
+  --sidebar-border: #000000;
+  --sidebar-ring: #000000;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    border-radius: 0 !important;
   }
   body {
     @apply bg-background text-foreground;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-family: var(--font-serif-body), Georgia, "PingFang SC", "Microsoft YaHei", serif;
   }
   html {
-    @apply font-sans scroll-smooth;
+    @apply scroll-smooth;
   }
 }
 
-/* 评测文章排版 */
+/* ================================================================
+   评测文章排版（保留，适配黑白风格）
+   ================================================================ */
 .prose-app {
   @apply text-foreground leading-relaxed;
   max-width: 720px;
   margin: 0 auto;
 }
-.prose-app h1 { @apply text-3xl font-bold mt-10 mb-4; }
-.prose-app h2 { @apply text-2xl font-semibold mt-8 mb-3 text-primary; }
-.prose-app h3 { @apply text-xl font-semibold mt-6 mb-2; }
+.prose-app h1 { @apply text-3xl font-bold mt-10 mb-4; font-family: var(--font-serif-display), Georgia, serif; }
+.prose-app h2 { @apply text-2xl font-semibold mt-8 mb-3; font-family: var(--font-serif-display), Georgia, serif; }
+.prose-app h3 { @apply text-xl font-semibold mt-6 mb-2; font-family: var(--font-serif-display), Georgia, serif; }
 .prose-app p { @apply my-4 text-base leading-7; }
 .prose-app ul { @apply list-disc pl-6 my-4; }
 .prose-app ol { @apply list-decimal pl-6 my-4; }
 .prose-app li { @apply my-1; }
-.prose-app blockquote { @apply border-l-4 border-primary/30 pl-4 my-4 italic text-muted-foreground; }
-.prose-app img { @apply rounded-xl my-6 w-full; }
-.prose-app code { @apply bg-muted px-1.5 py-0.5 rounded text-sm; }
-.prose-app pre { @apply bg-muted p-4 rounded-xl overflow-x-auto my-4; }
+.prose-app blockquote { @apply border-l-4 border-black pl-4 my-4 italic text-muted-foreground; }
+.prose-app img { @apply my-6 w-full; }
+.prose-app code { @apply bg-muted px-1.5 py-0.5 text-sm; }
+.prose-app pre { @apply bg-muted p-4 overflow-x-auto my-4; }
 
-/* 骨架屏动画 */
+/* ================================================================
+   骨架屏（黑白版）
+   ================================================================ */
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
 .skeleton {
-  background: linear-gradient(90deg, oklch(0.94 0.005 260) 25%, oklch(0.97 0.003 260) 50%, oklch(0.94 0.005 260) 75%);
+  background: linear-gradient(90deg, #E5E5E5 25%, #F5F5F5 50%, #E5E5E5 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-  border-radius: var(--radius);
 }
-
-/* 评分星星颜色 */
-.star-filled { color: oklch(0.75 0.15 85); }
-.star-empty { color: oklch(0.85 0.01 260); }
 
 /* ================================================================
-   海报页 — 玻璃拟态 + 入场动效 + 星空闪烁 + 雷达扫描
+   通用工具类
    ================================================================ */
 
-/* 玻璃拟态卡片 — 成品级规范 */
-.glass-card-pro {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(24px) saturate(1.5);
-  -webkit-backdrop-filter: blur(24px) saturate(1.5);
-  border: 1px solid rgba(59, 130, 246, 0.2);
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.35),
-    0 2px 8px rgba(30, 64, 175, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  transition:
-    transform 300ms ease-out,
-    background 300ms ease-out,
-    border-color 300ms ease-out,
-    box-shadow 300ms ease-out;
-  will-change: transform;
+/* 粗线分隔 */
+.rule-thick {
+  height: 4px;
+  background: #000;
+  width: 100%;
 }
 
-.glass-card-pro:hover {
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(59, 130, 246, 0.4);
-  border-top-color: rgba(255, 255, 255, 0.2);
-  box-shadow:
-    0 14px 44px rgba(0, 0, 0, 0.45),
-    0 4px 12px rgba(30, 64, 175, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+/* 区域标签（等宽字体） */
+.section-label {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #525252;
 }
 
-/* 入场动效：从下淡入上移 — GPU 加速 */
+/* 卡片 hover 反转 */
+.card-invert {
+  border: 2px solid #000;
+  background: #FFF;
+  transition: background-color 100ms, color 100ms;
+}
+.card-invert:hover {
+  background: #000;
+  color: #FFF;
+}
+.card-invert:hover .card-invert-icon { color: #FFF; }
+.card-invert:hover .card-invert-text { color: rgba(255,255,255,0.7); }
+
+/* 入场动效 — 极简淡入 */
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px) translateZ(0);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) translateZ(0);
-  }
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
 .animate-fade-in-up {
-  animation: fadeInUp 500ms cubic-bezier(0.4, 0, 0.2, 1) both;
-  will-change: transform, opacity;
-}
-
-/* 星点闪烁 */
-@keyframes starTwinkle {
-  0%, 100% { opacity: 0.3; }
-  40% { opacity: 0.9; }
-  60% { opacity: 0.4; }
-  80% { opacity: 1; }
-}
-
-.animate-star-twinkle {
-  animation: starTwinkle 3s ease-in-out infinite;
-  will-change: opacity;
-}
-
-/* 漂浮粒子 */
-@keyframes particleFloat {
-  0% {
-    transform: translateY(0) translateX(0) scale(1) translateZ(0);
-    opacity: 0;
-  }
-  10% { opacity: 0.8; }
-  90% { opacity: 0.6; }
-  100% {
-    transform: translateY(-110vh) translateX(40px) scale(0.3) translateZ(0);
-    opacity: 0;
-  }
-}
-
-.animate-particle-float {
-  animation: particleFloat 10s linear infinite;
-  will-change: transform, opacity;
-}
-
-/* 雷达扫描旋转 */
-@keyframes radarSpin {
-  from { transform: rotate(0deg) translateZ(0); }
-  to { transform: rotate(360deg) translateZ(0); }
-}
-
-.animate-radar-spin {
-  animation: radarSpin 12s linear infinite;
-  will-change: transform;
+  animation: fadeInUp 400ms ease-out both;
 }

@@ -2,13 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, PlusCircle, User } from "lucide-react";
-import { LinkButton } from "@/components/ui/link-button";
+import { Search, Plus, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/", label: "发现" },
-  { href: "/apps", label: "App库" },
+  { href: "/apps", label: "App 库" },
   { href: "/community", label: "社区" },
 ];
 
@@ -16,27 +15,29 @@ export function Navbar() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+    <header className="sticky top-0 z-50 w-full border-b-2 border-black bg-white">
+      <div className="container mx-auto flex h-14 max-w-6xl items-center justify-between px-6 lg:px-12">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 shrink-0">
-          <span className="text-2xl">🔭</span>
-          <span className="text-lg font-bold text-foreground hidden sm:inline">
-            App 观察站
+          <span
+            className="text-xl font-bold tracking-tighter"
+            style={{ fontFamily: "var(--font-serif-display), 'Playfair Display', Georgia, serif" }}
+          >
+            拆解
           </span>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
-                "px-4 py-2 rounded-lg text-sm font-medium transition-colors",
+                "text-sm font-medium tracking-widest uppercase transition-colors duration-100",
                 pathname === link.href
-                  ? "bg-primary/10 text-primary"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  ? "text-black border-b-2 border-black pb-1 -mb-1"
+                  : "text-[#525252] hover:text-black"
               )}
             >
               {link.label}
@@ -45,21 +46,31 @@ export function Navbar() {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-2">
-          <LinkButton variant="ghost" size="icon" className="hidden sm:inline-flex" href="/search">
-            <Search className="h-5 w-5" />
-            <span className="sr-only">搜索</span>
-          </LinkButton>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/search"
+            className="p-2 text-[#525252] hover:text-black transition-colors duration-100"
+            aria-label="搜索"
+          >
+            <Search size={18} strokeWidth={1.5} />
+          </Link>
 
-          <LinkButton size="sm" className="hidden sm:inline-flex gap-1.5" href="/submit">
-            <PlusCircle className="h-4 w-4" />
+          <Link
+            href="/submit"
+            className="hidden sm:inline-flex items-center gap-1.5 bg-black text-white px-4 py-1.5 text-xs font-medium
+                       tracking-widest uppercase transition-colors duration-100 hover:bg-white hover:text-black border-2 border-black"
+          >
+            <Plus size={14} strokeWidth={2} />
             写评测
-          </LinkButton>
+          </Link>
 
-          <LinkButton variant="ghost" size="icon" href="/auth">
-            <User className="h-5 w-5" />
-            <span className="sr-only">我的</span>
-          </LinkButton>
+          <Link
+            href="/auth"
+            className="p-2 text-[#525252] hover:text-black transition-colors duration-100"
+            aria-label="我的"
+          >
+            <User size={18} strokeWidth={1.5} />
+          </Link>
         </div>
       </div>
     </header>

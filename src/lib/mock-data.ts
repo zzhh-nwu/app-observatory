@@ -1,5 +1,8 @@
 import { AppEntry, Review, UserProfile, Ranking } from "./types";
 
+// ================================================================
+// 用户
+// ================================================================
 export const mockUsers: Record<string, UserProfile> = {
   alice: {
     username: "alice",
@@ -33,290 +36,608 @@ export const mockUsers: Record<string, UserProfile> = {
     joinedAt: "2026-02-28",
     stats: { reviews: 15, helpfulVotes: 421, badges: ["资深评测官", "数据侦探", "社区先锋"] },
   },
+  emma: {
+    username: "emma",
+    displayName: "Emma·全球视野",
+    avatar: "🌍",
+    bio: "关注全球AI产品生态，擅长对比国内外AI工具的用户体验差异。",
+    joinedAt: "2026-05-20",
+    stats: { reviews: 6, helpfulVotes: 198, badges: ["AI行家", "评测新星"] },
+  },
 };
 
+// ================================================================
+// App 数据（国产 + 国际 AI 大模型全覆盖）
+// ================================================================
 export const mockApps: AppEntry[] = [
+  // ---- 国产 AI ----
   {
-    id: "1",
-    slug: "doubao",
-    name: "豆包",
-    icon: "🫘",
+    id: "1", slug: "doubao", name: "豆包", icon: "🫘",
     tagline: "字节跳动旗下的AI智能助手，全能型国产AI对话工具",
     description: "豆包是字节跳动推出的AI对话助手，支持多模态交互，集成在抖音等字节系产品中。作为国产AI助手的代表，豆包在中文理解、多轮对话和实际应用场景方面表现突出，但其数据收集范围也引发了隐私关注。",
-    category: "AI工具",
-    developer: "字节跳动",
-    platforms: ["iOS", "Android", "Web"],
-    website: "https://www.doubao.com",
+    category: "AI工具", developer: "字节跳动",
+    platforms: ["iOS", "Android", "Web"], website: "https://www.doubao.com",
     privacyLevel: "B级·部分公开",
     scores: { usability: 8.5, privacy: 6.0, businessModel: 7.5, innovation: 8.0, overall: 7.6 },
-    reviewCount: 24,
-    ratingCount: 186,
+    reviewCount: 3, ratingCount: 186,
     tags: ["AI助手", "多模态", "免费", "国产"],
-    createdAt: "2026-01-15",
-    updatedAt: "2026-06-10",
+    createdAt: "2026-01-15", updatedAt: "2026-06-10",
   },
   {
-    id: "2",
-    slug: "deepseek",
-    name: "DeepSeek",
-    icon: "🐋",
+    id: "2", slug: "deepseek", name: "DeepSeek", icon: "🐋",
     tagline: "开源AI模型的标杆，推理能力强悍的国产大模型",
     description: "DeepSeek以开源和强大推理能力闻名，其V3和R1系列模型在全球AI社区引发巨大反响。作为国产开源模型的旗帜，DeepSeek在技术透明度和开放性上为行业树立了新标准。",
-    category: "AI工具",
-    developer: "深度求索",
-    platforms: ["iOS", "Android", "Web"],
-    website: "https://chat.deepseek.com",
+    category: "AI工具", developer: "深度求索",
+    platforms: ["iOS", "Android", "Web"], website: "https://chat.deepseek.com",
     privacyLevel: "A级·公开可审计",
     scores: { usability: 8.0, privacy: 8.5, businessModel: 6.5, innovation: 9.5, overall: 8.3 },
-    reviewCount: 31,
-    ratingCount: 245,
+    reviewCount: 4, ratingCount: 245,
     tags: ["AI助手", "开源", "推理", "国产"],
-    createdAt: "2026-01-20",
-    updatedAt: "2026-06-12",
+    createdAt: "2026-01-20", updatedAt: "2026-06-12",
   },
   {
-    id: "3",
-    slug: "kimi",
-    name: "Kimi",
-    icon: "🌙",
+    id: "3", slug: "kimi", name: "Kimi", icon: "🌙",
     tagline: "月之暗面出品，超长上下文AI助手",
     description: "Kimi以超长上下文处理能力著称，可以一次处理数十万字的文档。在长文阅读、论文分析和合同审阅等场景表现优异，成为知识工作者的得力工具。",
-    category: "AI工具",
-    developer: "月之暗面",
-    platforms: ["iOS", "Android", "Web"],
-    website: "https://kimi.moonshot.cn",
+    category: "AI工具", developer: "月之暗面",
+    platforms: ["iOS", "Android", "Web"], website: "https://kimi.moonshot.cn",
     privacyLevel: "B级·部分公开",
     scores: { usability: 8.2, privacy: 6.5, businessModel: 7.0, innovation: 8.5, overall: 7.7 },
-    reviewCount: 18,
-    ratingCount: 132,
+    reviewCount: 2, ratingCount: 132,
     tags: ["AI助手", "长文本", "知识工作", "国产"],
-    createdAt: "2026-02-01",
-    updatedAt: "2026-06-08",
+    createdAt: "2026-02-01", updatedAt: "2026-06-08",
   },
   {
-    id: "4",
-    slug: "jimeng",
-    name: "即梦",
-    icon: "🎬",
+    id: "4", slug: "jimeng", name: "即梦", icon: "🎬",
     tagline: "字节跳动AI视频生成工具，文字秒变视频",
     description: "即梦是字节跳动推出的AI视频创作平台，支持文生视频、图生视频等功能。在短视频创作盛行的当下，即梦大幅降低了视频内容创作的门槛。",
-    category: "内容创作",
-    developer: "字节跳动",
-    platforms: ["iOS", "Android", "Web"],
-    website: "https://jimeng.jianying.com",
+    category: "内容创作", developer: "字节跳动",
+    platforms: ["iOS", "Android", "Web"], website: "https://jimeng.jianying.com",
     privacyLevel: "B级·部分公开",
     scores: { usability: 7.8, privacy: 5.5, businessModel: 7.0, innovation: 8.8, overall: 7.3 },
-    reviewCount: 15,
-    ratingCount: 98,
+    reviewCount: 1, ratingCount: 98,
     tags: ["AI视频", "内容创作", "短视频", "国产"],
-    createdAt: "2026-03-01",
-    updatedAt: "2026-06-05",
+    createdAt: "2026-03-01", updatedAt: "2026-06-05",
   },
   {
-    id: "5",
-    slug: "notion",
-    name: "Notion",
-    icon: "📝",
+    id: "5", slug: "notion", name: "Notion", icon: "📝",
     tagline: "全能型笔记与协作工具，知识管理的瑞士军刀",
-    description: "Notion将笔记、数据库、项目管理、Wiki等功能融为一体，配合强大的AI功能，已成为全球最受欢迎的 productivity 工具之一。其灵活的模块化设计让每个用户都能打造属于自己的工作空间。",
-    category: "效率工具",
-    developer: "Notion Labs",
-    platforms: ["iOS", "Android", "Web", "macOS", "Windows"],
-    website: "https://www.notion.so",
+    description: "Notion将笔记、数据库、项目管理、Wiki等功能融为一体，配合强大的AI功能，已成为全球最受欢迎的 productivity 工具之一。",
+    category: "效率工具", developer: "Notion Labs",
+    platforms: ["iOS", "Android", "Web", "macOS", "Windows"], website: "https://www.notion.so",
     privacyLevel: "B级·部分公开",
     scores: { usability: 9.0, privacy: 7.0, businessModel: 8.5, innovation: 9.0, overall: 8.5 },
-    reviewCount: 28,
-    ratingCount: 310,
+    reviewCount: 2, ratingCount: 310,
     tags: ["笔记", "协作", "项目管理", "AI"],
-    createdAt: "2026-01-10",
-    updatedAt: "2026-06-15",
+    createdAt: "2026-01-10", updatedAt: "2026-06-15",
   },
   {
-    id: "6",
-    slug: "wechat",
-    name: "微信",
-    icon: "💬",
+    id: "6", slug: "wechat", name: "微信", icon: "💬",
     tagline: "中国超级App，从即时通讯到数字生活基础设施",
     description: "微信早已超越聊天工具的定义，成为集支付、小程序、视频号、企业微信于一体的数字生活平台。作为中国数字经济的基础设施，微信的商业模式、数据生态和隐私实践值得深入分析。",
-    category: "社交通讯",
-    developer: "腾讯",
-    platforms: ["iOS", "Android", "macOS", "Windows"],
-    website: "https://weixin.qq.com",
+    category: "社交通讯", developer: "腾讯",
+    platforms: ["iOS", "Android", "macOS", "Windows"], website: "https://weixin.qq.com",
     privacyLevel: "C级·信息不透明",
     scores: { usability: 8.5, privacy: 4.5, businessModel: 9.0, innovation: 7.5, overall: 7.2 },
-    reviewCount: 20,
-    ratingCount: 267,
+    reviewCount: 2, ratingCount: 267,
     tags: ["社交", "支付", "小程序", "生态系统"],
-    createdAt: "2026-01-05",
-    updatedAt: "2026-06-14",
+    createdAt: "2026-01-05", updatedAt: "2026-06-14",
+  },
+
+  // ---- 国际 AI 大模型 ----
+  {
+    id: "7", slug: "chatgpt", name: "ChatGPT", icon: "🧠",
+    tagline: "OpenAI 旗舰产品，全球最知名的AI对话助手",
+    description: "ChatGPT 由 OpenAI 开发，是全球用户量最大的 AI 对话产品。GPT-5 系列模型在推理、创作和多模态理解方面处于行业领先地位。2026 年，ChatGPT 已深度整合搜索、代码执行和图像生成能力。",
+    category: "AI工具", developer: "OpenAI",
+    platforms: ["iOS", "Android", "Web", "macOS", "Windows"],
+    website: "https://chatgpt.com",
+    privacyLevel: "B级·部分公开",
+    scores: { usability: 9.2, privacy: 7.5, businessModel: 8.5, innovation: 9.8, overall: 8.8 },
+    reviewCount: 3, ratingCount: 520,
+    tags: ["AI助手", "多模态", "GPT-5", "国际"],
+    createdAt: "2026-02-10", updatedAt: "2026-06-18",
+  },
+  {
+    id: "8", slug: "claude", name: "Claude", icon: "🎭",
+    tagline: "Anthropic 的安全优先AI助手，深度推理能力卓越",
+    description: "Claude 由 Anthropic 开发，以安全性和诚实性为核心设计理念。在长文档分析、代码生成和复杂推理任务上表现突出。2026 年的 Claude 5 系列将推理能力提升到了新高度。",
+    category: "AI工具", developer: "Anthropic",
+    platforms: ["iOS", "Android", "Web", "macOS"],
+    website: "https://claude.ai",
+    privacyLevel: "A级·公开可审计",
+    scores: { usability: 8.8, privacy: 9.0, businessModel: 7.5, innovation: 9.5, overall: 8.7 },
+    reviewCount: 3, ratingCount: 410,
+    tags: ["AI助手", "安全优先", "深度推理", "国际"],
+    createdAt: "2026-03-01", updatedAt: "2026-06-20",
+  },
+  {
+    id: "9", slug: "gemini", name: "Gemini", icon: "💎",
+    tagline: "Google 多模态AI，深度集成 Google 生态",
+    description: "Gemini 是 Google 推出的多模态 AI 助手，深度整合了 Google 搜索、Gmail、Google Docs 等服务。在 2026 年，Gemini Ultra 2 在数学推理和科学分析方面达到了新的里程碑。",
+    category: "AI工具", developer: "Google DeepMind",
+    platforms: ["iOS", "Android", "Web"],
+    website: "https://gemini.google.com",
+    privacyLevel: "B级·部分公开",
+    scores: { usability: 9.0, privacy: 6.5, businessModel: 8.0, innovation: 9.2, overall: 8.2 },
+    reviewCount: 2, ratingCount: 380,
+    tags: ["AI助手", "多模态", "搜索整合", "国际"],
+    createdAt: "2026-02-20", updatedAt: "2026-06-16",
+  },
+  {
+    id: "10", slug: "copilot", name: "Microsoft Copilot", icon: "🤖",
+    tagline: "微软全家桶AI助手，生产力场景的标杆",
+    description: "Microsoft Copilot 深度集成在 Windows、Office 365、Edge 和 GitHub 中，是全球最大的企业级 AI 助手。2026 年 Copilot 已支持跨应用的上下文理解和自动化工作流。",
+    category: "效率工具", developer: "Microsoft",
+    platforms: ["iOS", "Android", "Web", "Windows", "macOS"],
+    website: "https://copilot.microsoft.com",
+    privacyLevel: "B级·部分公开",
+    scores: { usability: 8.5, privacy: 6.0, businessModel: 9.0, innovation: 8.5, overall: 8.0 },
+    reviewCount: 2, ratingCount: 450,
+    tags: ["AI助手", "生产力", "企业级", "国际"],
+    createdAt: "2026-03-10", updatedAt: "2026-06-14",
+  },
+  {
+    id: "11", slug: "perplexity", name: "Perplexity", icon: "🔎",
+    tagline: "AI 原生搜索引擎，实时信息检索新范式",
+    description: "Perplexity 将 AI 对话与实时搜索融合，开创了「答案引擎」这一新品类。2026 年已支持深度研究模式和个性化知识库，正在挑战传统搜索引擎的市场格局。",
+    category: "AI工具", developer: "Perplexity AI",
+    platforms: ["iOS", "Android", "Web"],
+    website: "https://www.perplexity.ai",
+    privacyLevel: "A级·公开可审计",
+    scores: { usability: 8.8, privacy: 8.5, businessModel: 7.0, innovation: 9.3, overall: 8.4 },
+    reviewCount: 2, ratingCount: 290,
+    tags: ["AI搜索", "实时信息", "研究工具", "国际"],
+    createdAt: "2026-04-05", updatedAt: "2026-06-19",
+  },
+  {
+    id: "12", slug: "grok", name: "Grok", icon: "⚡",
+    tagline: "xAI 出品，实时数据驱动的AI助手",
+    description: "Grok 由 Elon Musk 的 xAI 开发，以实时数据访问和鲜明的个性著称。2026 年 Grok 3 已在推理速度和 X 平台数据整合方面取得显著优势。",
+    category: "AI工具", developer: "xAI",
+    platforms: ["iOS", "Android", "Web"],
+    website: "https://grok.x.ai",
+    privacyLevel: "C级·信息不透明",
+    scores: { usability: 7.5, privacy: 5.0, businessModel: 6.5, innovation: 8.0, overall: 6.8 },
+    reviewCount: 1, ratingCount: 175,
+    tags: ["AI助手", "实时数据", "社交媒体", "国际"],
+    createdAt: "2026-05-01", updatedAt: "2026-06-22",
   },
 ];
 
+// ================================================================
+// 评测数据（与 App reviewCount 匹配）
+// ================================================================
 export const mockReviews: Review[] = [
+  // ---- DeepSeek 的 4 篇评测 ----
   {
-    id: "r1",
-    slug: "deepseek-privacy-analysis",
-    appId: "2",
-    appName: "DeepSeek",
-    title: "DeepSeek：开源模型的数据隐私模型真的过关吗？",
+    id: "r1", slug: "deepseek-privacy-analysis", appId: "2", appName: "DeepSeek",
+    title: "DeepSeek：开源模型的数据隐私真的过关吗？",
     summary: "作为国产开源大模型的代表，DeepSeek在技术透明度和数据隐私方面的表现如何？本文从开源程度、数据处理政策、用户控制权三个维度进行深度评测。",
-    content: `## 评测背景
-
-DeepSeek在2025-2026年间以开源模型的身份迅速崛起，其V3和R1系列模型在全球AI评测中多次进入前列。然而，"开源"并不自动等同于"隐私友好"。本文将从数字经济的数据治理视角出发，对DeepSeek进行全方位评测。
-
-## 优点
-
-- **模型权重开源**：DeepSeek是少数公开完整模型权重的国产大模型，第三方可以独立进行安全审计
-- **技术白皮书详实**：训练方法、数据来源、模型架构均有详细文档
-- **本地部署可行**：提供开源版本供个人和企业在本地部署，数据不离开自己的服务器
-- **推理能力一流**：尤其在逻辑推理和代码生成方面表现出色
-
-## 缺点
-
-- **云端服务的隐私政策仍有提升空间**：虽然本地版开源，但官方App的数据处理条款仍需仔细阅读
-- **商业模式不清晰**：长期免费可持续性存疑，未来可能引入商业化功能
-- **用户数据控制权有限**：对话历史等数据的管理选项还比较简单
-
-## 适合谁？
-
-- 对AI透明度和可审计性有要求的研究者和开发者
-- 希望在本地部署AI、掌控数据的企业用户
-- 需要强推理能力的知识工作者
-
-## 数据可靠性分析
-
-DeepSeek在数据透明度方面处于国产AI工具的第一梯队。其开源策略为第三方安全审计提供了可能，这是目前大多数国产AI产品无法做到的。建议用户优先使用本地部署版本以获得最大的数据控制权。
-
-**可信度评分：8.5/10**`,
+    content: `## 评测背景\n\nDeepSeek在2025-2026年间以开源模型的身份迅速崛起。然而，"开源"并不自动等同于"隐私友好"。本文将从数字经济的数据治理视角出发进行评测。\n\n## 优点\n\n- **模型权重开源**：少数公开完整权重的国产大模型\n- **技术白皮书详实**：训练方法、数据来源、架构均有文档\n- **本地部署可行**：数据不离开自己的服务器\n- **推理能力一流**：逻辑推理和代码生成出色\n\n## 缺点\n\n- 云端服务的隐私政策仍有提升空间\n- 商业模式不清晰，长期免费可持续性存疑\n- 用户数据控制权有限\n\n## 适合谁？\n\n关注AI透明度的研究者、需要本地部署的企业用户、需要强推理能力的知识工作者。`,
     author: mockUsers.david,
     scores: { usability: 8.0, privacy: 8.5, businessModel: 6.5, innovation: 9.5, overall: 8.3 },
     pros: ["模型开源可审计", "本地部署数据安全", "推理能力强悍", "技术文档详细"],
     cons: ["云端隐私政策待完善", "商业模式不清晰", "用户数据控制选项少"],
     bestFor: "关注AI透明度的研究者、需要本地部署的企业用户",
     trustNote: "开源权重是数据可靠性的最强保障，但需注意官方托管服务的隐私条款与开源版本不同。",
-    helpfulCount: 89,
-    commentCount: 23,
-    isCollaborative: false,
-    createdAt: "2026-05-20",
-    updatedAt: "2026-06-10",
+    helpfulCount: 89, commentCount: 23, isCollaborative: false,
+    createdAt: "2026-05-20", updatedAt: "2026-06-10",
   },
   {
-    id: "r2",
-    slug: "doubao-ux-review",
-    appId: "1",
-    appName: "豆包",
+    id: "r1b", slug: "deepseek-tech-breakdown", appId: "2", appName: "DeepSeek",
+    title: "DeepSeek V3 技术解读：MoE架构如何实现效率革命？",
+    summary: "从技术视角拆解DeepSeek V3的混合专家模型架构，理解它如何在保持高性能的同时大幅降低推理成本。",
+    content: `## 评测背景\n\nDeepSeek V3采用MoE架构，在保持175B参数规模的同时实现了极高的推理效率。本文将从技术架构、推理优化和实际效果三个层面进行评测。\n\n## 核心优势\n\n- MoE架构只激活部分参数，推理速度快3-5倍\n- 开源权重让研究者可以独立验证性能指标\n- API定价远低于同级别闭源模型\n\n## 局限\n\n- MoE架构对显存要求较高\n- 部分专业领域（如医学、法律）的准确性有待提升`,
+    author: mockUsers.david,
+    scores: { usability: 7.5, privacy: 8.0, businessModel: 7.0, innovation: 9.8, overall: 8.2 },
+    pros: ["MoE架构高效", "开源可验证", "API性价比高"],
+    cons: ["显存要求高", "专业领域待提升"],
+    bestFor: "技术开发者、成本敏感型企业",
+    trustNote: "开源权重是最大优势。",
+    helpfulCount: 62, commentCount: 15, isCollaborative: false,
+    createdAt: "2026-06-01", updatedAt: "2026-06-15",
+  },
+  {
+    id: "r1c", slug: "deepseek-vs-chatgpt", appId: "2", appName: "DeepSeek",
+    title: "DeepSeek vs ChatGPT：开源与闭源模型的全面对比",
+    summary: "从推理能力、隐私保护、使用成本和生态完整性四个维度对比DeepSeek和ChatGPT，帮你做出选择。",
+    content: `## 对比背景\n\nDeepSeek和ChatGPT代表了AI模型的两条路线：开源 vs 闭源。本文从实际使用体验出发进行横向对比。\n\n| 维度 | DeepSeek | ChatGPT |\n|------|----------|--------|\n| 推理能力 | ★★★★☆ | ★★★★★ |\n| 隐私保护 | ★★★★★ | ★★★☆☆ |\n| 使用成本 | ★★★★★ | ★★★☆☆ |\n| 生态完整性 | ★★★☆☆ | ★★★★★ |\n\n**结论**：DeepSeek适合注重隐私和成本的用户，ChatGPT适合追求极致体验的用户。`,
+    author: mockUsers.alice,
+    scores: { usability: 7.0, privacy: 9.0, businessModel: 7.5, innovation: 8.0, overall: 7.9 },
+    pros: ["隐私保护出色", "成本极低", "开源生态健康"],
+    cons: ["生态不如ChatGPT完整", "部分场景体验稍逊"],
+    bestFor: "注重隐私和成本控制的用户",
+    trustNote: "两项产品代表了AI行业的两条路线。",
+    helpfulCount: 105, commentCount: 38, isCollaborative: false,
+    createdAt: "2026-04-10", updatedAt: "2026-05-20",
+  },
+  {
+    id: "r1d", slug: "deepseek-enterprise", appId: "2", appName: "DeepSeek",
+    title: "企业级DeepSeek部署指南：从零搭建私有AI服务",
+    summary: "面向中小企业，详解如何利用DeepSeek开源版本搭建安全可控的私有AI推理服务。",
+    content: `## 背景\n\n对于有数据安全要求的企业，DeepSeek的开源版本是搭建私有AI服务的最佳选择之一。本文提供从零部署的完整指南。\n\n## 方案要点\n- 使用vLLM或Ollama作为推理引擎\n- 推荐最低配置：RTX 4090 24GB ×2\n- 数据完全留在内网，零泄露风险\n- 单次推理成本约为API调用的1/10`,
+    author: mockUsers.david,
+    scores: { usability: 6.5, privacy: 9.5, businessModel: 8.0, innovation: 8.5, overall: 8.1 },
+    pros: ["数据完全本地化", "长期成本极低", "可定制性强"],
+    cons: ["部署门槛较高", "需要GPU硬件投入"],
+    bestFor: "有数据安全需求的中小企业",
+    trustNote: "这是目前最经济的私有AI部署方案之一。",
+    helpfulCount: 78, commentCount: 20, isCollaborative: false,
+    createdAt: "2026-06-05", updatedAt: "2026-06-22",
+  },
+
+  // ---- 豆包 3 篇 ----
+  {
+    id: "r2", slug: "doubao-ux-review", appId: "1", appName: "豆包",
     title: "豆包体验评测：国产AI助手的「全能」是优势还是陷阱？",
     summary: "豆包作为字节跳动的旗舰AI产品，在多模态交互和生态整合方面有天然优势。但「什么都能做」的定位是否导致它在专业深度上有所妥协？",
-    content: `## 评测背景
-
-豆包是字节跳动在AI大模型赛道的重要布局。与DeepSeek侧重技术开源不同，豆包走的是「全能型AI助手」路线：聊天、写作、翻译、生图，什么都能做。本评测聚焦于用户体验和产品设计。
-
-## 优点
-
-- **交互体验流畅**：App界面设计精良，响应速度快，上手门槛极低
-- **生态整合深**：与抖音、今日头条等内容生态无缝衔接
-- **多模态能力强**：文字、图片、语音交互一体化
-- **中文理解优秀**：对中文语境的理解和处理能力一流
-
-## 缺点
-
-- **隐私政策复杂**：作为字节系产品，数据收集范围较广，普通用户难以完全理解
-- **功能广度 > 深度**：什么都做但每个单项可能不如专业工具
-- **订阅模式变化**：免费→付费的过渡策略让部分早期用户感到困惑
-
-## 适合谁？
-
-- 需要日常AI辅助的普通用户
-- 已深入使用字节生态的用户
-- 需要多模态交互的创作者
-
-## 数据可靠性分析
-
-豆包的隐私政策是其主要短板。作为广告收入驱动的公司产品，用户数据可能被用于模型训练和广告定向。建议用户在使用时注意关闭非必要的权限和数据共享选项。`,
+    content: `## 评测背景\n\n豆包是字节跳动在AI大模型赛道的重要布局。本评测聚焦于用户体验和产品设计。\n\n## 优点\n- 交互体验流畅，上手门槛极低\n- 与抖音等内容生态无缝衔接\n- 多模态能力强：文字、图片、语音一体化\n- 中文理解一流\n\n## 缺点\n- 隐私政策复杂，数据收集范围广\n- 功能广度 > 深度\n- 收费策略变动频繁`,
     author: mockUsers.carol,
     scores: { usability: 8.5, privacy: 6.0, businessModel: 7.5, innovation: 8.0, overall: 7.6 },
     pros: ["交互流畅", "生态整合好", "多模态能力强", "中文理解优秀"],
     cons: ["隐私政策复杂", "功能广而不深", "收费策略变动"],
     bestFor: "日常AI辅助用户、字节生态深度用户",
-    trustNote: "字节系产品的隐私实践需要重点关注，建议定期检查权限设置。",
-    helpfulCount: 56,
-    commentCount: 18,
-    isCollaborative: true,
-    collaborators: [mockUsers.bob],
-    createdAt: "2026-05-15",
-    updatedAt: "2026-06-08",
+    trustNote: "字节系产品的隐私实践需要重点关注。",
+    helpfulCount: 56, commentCount: 18, isCollaborative: true, collaborators: [mockUsers.bob],
+    createdAt: "2026-05-15", updatedAt: "2026-06-08",
   },
   {
-    id: "r3",
-    slug: "notion-productivity-analysis",
-    appId: "5",
-    appName: "Notion",
+    id: "r2b", slug: "doubao-creator-review", appId: "1", appName: "豆包",
+    title: "创作者视角：豆包如何改变了我的内容生产流程？",
+    summary: "作为内容创作者，我在过去3个月深度使用豆包进行写作、配图和短视频制作，分享真实的使用体验。",
+    content: `## 背景\n\n作为全职内容创作者，我每天需要产出大量文字和视觉内容。豆包的AI能力为我节省了约40%的创作时间。\n\n## 亮点\n- AI写作助手能保持我的文风一致性\n- 一键生成配图功能实用\n- 短视频脚本生成质量高\n\n## 槽点\n- 每个月有使用额度限制\n- 免费版的功能逐渐缩水`,
+    author: mockUsers.emma,
+    scores: { usability: 8.8, privacy: 5.5, businessModel: 6.0, innovation: 7.5, overall: 7.0 },
+    pros: ["创作效率提升显著", "文风一致性高", "多模态输出方便"],
+    cons: ["免费版功能缩水", "额度限制", "隐私担忧"],
+    bestFor: "内容创作者、自媒体运营者",
+    trustNote: "创作效率提升明显，但需关注数据使用条款。",
+    helpfulCount: 42, commentCount: 12, isCollaborative: false,
+    createdAt: "2026-06-05", updatedAt: "2026-06-20",
+  },
+  {
+    id: "r2c", slug: "doubao-multimodal-test", appId: "1", appName: "豆包",
+    title: "实测豆包多模态能力：图片理解、语音对话、文档分析横向对比",
+    summary: "用10个测试用例实测豆包的多模态能力，与DeepSeek和Kimi进行横向对比。",
+    content: `## 测试方法\n\n选取10个标准测试用例，涵盖图片理解、语音识别、文档分析和视频总结四个维度。\n\n## 结论\n- 图片理解：豆包 ≈ ChatGPT（中文场景略优）\n- 语音识别：豆包明显优于竞品\n- 文档分析：被Kimi的超长上下文压制\n- 视频总结：豆包独有的一键总结功能很实用`,
+    author: mockUsers.carol,
+    scores: { usability: 8.5, privacy: 5.5, businessModel: 7.0, innovation: 8.5, overall: 7.4 },
+    pros: ["语音识别出色", "视频总结实用", "中文理解好"],
+    cons: ["文档分析不如Kimi", "隐私评分偏低"],
+    bestFor: "需要多模态AI的日常用户",
+    trustNote: "多模态方面豆包确实是国产最佳之一。",
+    helpfulCount: 67, commentCount: 22, isCollaborative: true, collaborators: [mockUsers.alice],
+    createdAt: "2026-06-12", updatedAt: "2026-06-22",
+  },
+
+  // ---- Kimi 2 篇 ----
+  {
+    id: "r3a", slug: "kimi-longcontext", appId: "3", appName: "Kimi",
+    title: "Kimi超长上下文实测：200页论文5分钟读完？",
+    summary: "上传一本200页的英文专著测试Kimi的超长上下文能力，看它能否真正理解全书的论证结构和关键论点。",
+    content: `## 测试\n\n上传了一本200页经济学专著，要求Kimi提炼核心论点、梳理论证结构、并回答10个细节问题。\n\n## 结果\n- 全书论点提炼准确率约85%\n- 论证结构梳理清晰\n- 10个细节问题答对8个\n- 响应速度约30秒（比其他AI工具快很多）\n\n## 适合场景\n- 学术文献综述\n- 合同/法律文件审阅\n- 长篇报告撰写`,
+    author: mockUsers.alice,
+    scores: { usability: 8.5, privacy: 6.0, businessModel: 6.5, innovation: 9.0, overall: 7.8 },
+    pros: ["超长上下文独一档", "响应速度很快", "学术场景优秀"],
+    cons: ["隐私评分中等", "多模态能力弱", "国际化不足"],
+    bestFor: "学术研究者、知识工作者",
+    trustNote: "超长上下文是Kimi的核心竞争力。",
+    helpfulCount: 93, commentCount: 27, isCollaborative: false,
+    createdAt: "2026-05-25", updatedAt: "2026-06-10",
+  },
+  {
+    id: "r3b", slug: "kimi-vs-gemini-context", appId: "3", appName: "Kimi",
+    title: "Kimi vs Gemini：谁的长上下文更靠谱？",
+    summary: "在长文档分析和信息提取任务中对比Kimi和Gemini，看看两家各有什么优劣。",
+    content: `## 对比\n\nKimi和Gemini都主打超长上下文。我用了5篇不同领域的长文进行盲测对比。\n\n| 指标 | Kimi | Gemini |\n|------|------|--------|\n| 中文理解 | ★★★★★ | ★★★☆☆ |\n| 英文理解 | ★★★★☆ | ★★★★★ |\n| 细节回忆 | ★★★★★ | ★★★★☆ |\n| 推理深度 | ★★★★☆ | ★★★★★ |\n\n**结论**：中文长文本选Kimi，英文长文本选Gemini。`,
+    author: mockUsers.emma,
+    scores: { usability: 8.0, privacy: 6.5, businessModel: 7.0, innovation: 8.0, overall: 7.5 },
+    pros: ["中文长文本最佳", "细节回忆准确", "响应快"],
+    cons: ["英文能力稍逊", "多模态较弱"],
+    bestFor: "中文长文档处理场景",
+    trustNote: "中文长文本处理的首选工具。",
+    helpfulCount: 54, commentCount: 16, isCollaborative: false,
+    createdAt: "2026-06-10", updatedAt: "2026-06-22",
+  },
+
+  // ---- Notion 2 篇 ----
+  {
+    id: "r3", slug: "notion-productivity-analysis", appId: "5", appName: "Notion",
     title: "Notion商业模式评测：SaaS独角兽如何靠「免费增值」征服全球？",
-    summary: "Notion从一个小众笔记工具成长为估值百亿的SaaS巨头，其产品策略和商业模式值得深入分析。本文从数字经济视角拆解Notion的成功逻辑。",
-    content: `## 评测背景
-
-Notion是一款现象级的生产力工具。它的成功不仅是产品设计的胜利，更是商业模式创新的典范。本文聚焦于Notion如何通过「免费增值+社区驱动」的策略实现增长飞轮。
-
-## 优点
-
-- **模块化设计极致灵活**：Block结构让用户自由组合，实现无限可能
-- **社区生态繁荣**：全球用户自发创建模板、教程，形成强大网络效应
-- **免费层足够慷慨**：个人用户几乎可以免费使用全部核心功能
-- **AI集成自然**：Notion AI的融入没有破坏原有体验
-
-## 缺点
-
-- **中文支持不完善**：部分界面翻译生硬，中文搜索效果一般
-- **离线体验差**：网络不好时使用受限
-- **数据存储在美国**：对中国用户存在数据合规风险
-- **企业版价格偏高**：对于小型团队来说成本不低
-
-## 适合谁？
-
-- 需要灵活知识管理系统的个人和团队
-- 追求一体化工作空间的知识工作者
-- 愿意参与社区共建的模板创作者
-
-## 商业模式分析
-
-Notion的免费增值模式通过「个人免费→团队付费」的路径实现转化。其社区驱动的模板生态大幅降低了用户获取成本，而网络效应使得用户迁移成本逐渐升高。这种模式在PLG（Product-Led Growth）领域堪称教科书级案例。`,
+    summary: "Notion从一个小众笔记工具成长为估值百亿的SaaS巨头，其产品策略和商业模式值得深入分析。",
+    content: `## 评测背景\n\nNotion是现象级生产力工具。本文聚焦于Notion的商业模式创新。\n\n## 优点\n- 模块化设计极致灵活\n- 社区生态繁荣，网络效应强大\n- 免费层足够慷慨\n- AI集成自然\n\n## 缺点\n- 中文支持不完善\n- 离线体验差\n- 数据存储在美国\n- 企业版价格偏高`,
     author: mockUsers.bob,
     scores: { usability: 9.0, privacy: 7.0, businessModel: 8.5, innovation: 9.0, overall: 8.5 },
     pros: ["模块化设计灵活", "社区生态繁荣", "免费层慷慨", "AI集成自然"],
     cons: ["中文支持不完善", "离线体验差", "数据存储海外", "企业版价格高"],
     bestFor: "知识工作者、需要灵活管理系统的团队",
-    trustNote: "数据存储在海外服务器，需要关注数据合规问题。",
-    helpfulCount: 72,
-    commentCount: 31,
-    isCollaborative: false,
-    createdAt: "2026-05-01",
-    updatedAt: "2026-06-12",
+    trustNote: "数据存储在海外服务器，需关注合规问题。",
+    helpfulCount: 72, commentCount: 31, isCollaborative: false,
+    createdAt: "2026-05-01", updatedAt: "2026-06-12",
+  },
+  {
+    id: "r3c", slug: "notion-ai-deepdive", appId: "5", appName: "Notion",
+    title: "Notion AI 深度体验：AI写作助手真的能替代人类思考吗？",
+    summary: "在Notion中深度使用AI写作功能3个月，分享它对知识管理和内容创作的真实影响。",
+    content: `## 体验\n\nNotion AI整合在文档编辑器中，使用极为便捷。但过度依赖AI也带来了问题。\n\n## 优点\n- 一键生成会议纪要、待办清单\n- 翻译和改写功能实用\n- 与Notion数据库深度集成\n\n## 反思\n- 过度使用后写作能力有所退化\n- AI生成内容容易流于表面\n- 需要刻意保持独立思考`,
+    author: mockUsers.carol,
+    scores: { usability: 8.5, privacy: 6.5, businessModel: 7.5, innovation: 8.0, overall: 7.6 },
+    pros: ["集成无缝", "会议纪要高效", "改写翻译实用"],
+    cons: ["过度依赖风险", "深度思考被削弱", "AI内容同质化"],
+    bestFor: "Notion重度用户",
+    trustNote: "AI是工具而非替代品，需保持独立思考。",
+    helpfulCount: 48, commentCount: 14, isCollaborative: false,
+    createdAt: "2026-06-08", updatedAt: "2026-06-20",
+  },
+
+  // ---- 微信 2 篇 ----
+  {
+    id: "r4a", slug: "wechat-ecosystem-analysis", appId: "6", appName: "微信",
+    title: "微信：从聊天工具到数字生活操作系统的进化之路",
+    summary: "分析微信如何从一款IM工具演变为中国最大的数字生活基础设施，以及这种进化带来的数据垄断隐忧。",
+    content: `## 分析\n\n微信已经不是一个App，而是中国网民的数字身份层。本文从数字经济视角分析其生态系统。\n\n## 优势\n- 支付、社交、内容、出行全覆盖\n- 小程序生态降低了创业门槛\n- 支付基础设施无处不在\n\n## 隐忧\n- 数据垄断程度极高\n- 商家依赖度过高形成锁定效应\n- 腾讯对微信生态有绝对控制权`,
+    author: mockUsers.bob,
+    scores: { usability: 9.0, privacy: 3.5, businessModel: 9.5, innovation: 7.0, overall: 7.3 },
+    pros: ["生态覆盖全面", "小程序降低门槛", "支付基础设施成熟"],
+    cons: ["数据垄断严重", "隐私评分极低", "过度中心化"],
+    bestFor: "所有中国智能手机用户",
+    trustNote: "微信的数据垄断是数字经济领域的重要议题。",
+    helpfulCount: 88, commentCount: 35, isCollaborative: false,
+    createdAt: "2026-04-15", updatedAt: "2026-05-30",
+  },
+  {
+    id: "r4b", slug: "wechat-miniapp-privacy", appId: "6", appName: "微信",
+    title: "微信小程序隐私合规评测：你的数据在小程序里安全吗？",
+    summary: "测试20款热门微信小程序的数据收集行为，评估微信小程序生态的隐私保护水平。",
+    content: `## 测试\n\n选取20款高频使用的小程序，用抓包工具分析其数据请求行为。\n\n## 发现\n- 70%的小程序会上传设备信息\n- 40%会请求不必要的通讯录权限\n- 微信对小程序的隐私审核不够严格\n- 用户几乎无法追踪数据流向\n\n## 建议\n- 尽量用独立App替代小程序\n- 定期检查微信授权列表\n- 敏感操作不要通过小程序完成`,
+    author: mockUsers.david,
+    scores: { usability: 8.0, privacy: 2.0, businessModel: 8.0, innovation: 6.0, overall: 6.0 },
+    pros: ["小程序便利性高", "无需安装"],
+    cons: ["隐私保护极差", "数据流向不透明", "审核机制不严"],
+    bestFor: "偶尔使用的低频服务",
+    trustNote: "小程序隐私风险需要高度警惕。",
+    helpfulCount: 115, commentCount: 42, isCollaborative: true, collaborators: [mockUsers.alice],
+    createdAt: "2026-06-01", updatedAt: "2026-06-22",
+  },
+
+  // ---- ChatGPT 3 篇 ----
+  {
+    id: "r5a", slug: "chatgpt-global-leader", appId: "7", appName: "ChatGPT",
+    title: "ChatGPT 2026年中评测：GPT-5时代，它仍是不可撼动的王者吗？",
+    summary: "在GPT-5发布后全面评测ChatGPT的能力边界、隐私进展和竞争格局。",
+    content: `## 评测\n\n2026年GPT-5发布后，ChatGPT的各方面能力再次跃升。本文从多维度评测其当前表现。\n\n## 亮点\n- 推理能力全面领先竞品约6-12个月\n- 多模态理解达到人类水平\n- 代码生成和执行能力卓越\n- 生态插件丰富\n\n## 隐忧\n- 订阅价格持续上涨\n- 数据使用政策透明度有待提高\n- 对中国用户的服务不完整`,
+    author: mockUsers.emma,
+    scores: { usability: 9.5, privacy: 7.0, businessModel: 8.0, innovation: 9.8, overall: 8.6 },
+    pros: ["推理能力最强", "多模态人类水平", "代码能力卓越", "生态丰富"],
+    cons: ["订阅价格高", "数据政策透明度不足", "中国用户受限"],
+    bestFor: "追求最强AI体验的用户",
+    trustNote: "目前综合能力最强的AI助手。",
+    helpfulCount: 132, commentCount: 45, isCollaborative: false,
+    createdAt: "2026-05-20", updatedAt: "2026-06-18",
+  },
+  {
+    id: "r5b", slug: "chatgpt-coding-companion", appId: "7", appName: "ChatGPT",
+    title: "程序员视角：ChatGPT作为编程搭档的真实体验",
+    summary: "作为全栈开发者，我在日常工作中深度使用ChatGPT辅助编程3个月，分享效率提升和局限。",
+    content: `## 体验\n\nChatGPT已深度融入我的开发流程。以下是我的真实数据：\n\n- 代码编写时间减少约50%\n- Bug修复速度提升约40%\n- 但代码审查时间增加了30%（AI生成的代码需要更仔细审查）\n\n## 最佳实践\n- 用ChatGPT生成样板代码和测试用例\n- 用ChatGPT解释看不懂的代码\n- 架构设计仍然靠自己`,
+    author: mockUsers.david,
+    scores: { usability: 9.0, privacy: 6.5, businessModel: 8.0, innovation: 9.5, overall: 8.3 },
+    pros: ["编程效率翻倍", "代码解释清晰", "测试用例生成好"],
+    cons: ["需仔细审查生成代码", "隐私担忧", "订阅费贵"],
+    bestFor: "软件开发者、技术团队",
+    trustNote: "ChatGPT是当前最好的编程AI伴侣。",
+    helpfulCount: 98, commentCount: 30, isCollaborative: false,
+    createdAt: "2026-06-05", updatedAt: "2026-06-20",
+  },
+  {
+    id: "r5c", slug: "chatgpt-privacy-update", appId: "7", appName: "ChatGPT",
+    title: "ChatGPT隐私政策2026年更新解析：你的对话数据还安全吗？",
+    summary: "详细解读OpenAI 2026年更新的隐私政策，分析对个人用户和企业用户的影响。",
+    content: `## 解析\n\nOpenAI在2026年Q2更新了隐私政策。本文逐条分析关键变化。\n\n## 主要变化\n- 默认不再使用API对话数据训练模型（重大改进）\n- 新增数据保留期限选项\n- 企业版增加了数据加密承诺\n- 但仍保留了部分数据使用权\n\n## 评分：7/10\n\n进步显著，但距"完全透明"还有距离。`,
+    author: mockUsers.alice,
+    scores: { usability: 9.0, privacy: 7.5, businessModel: 8.5, innovation: 9.0, overall: 8.5 },
+    pros: ["不再默认训练", "数据保留选项", "企业加密承诺"],
+    cons: ["部分数据使用仍模糊", "区域差异大"],
+    bestFor: "关注AI隐私政策的用户",
+    trustNote: "OpenAI在隐私方面的进步值得肯定。",
+    helpfulCount: 76, commentCount: 22, isCollaborative: false,
+    createdAt: "2026-06-15", updatedAt: "2026-06-22",
+  },
+
+  // ---- Claude 3 篇 ----
+  {
+    id: "r6a", slug: "claude-safety-first", appId: "8", appName: "Claude",
+    title: "Claude 安全哲学深度解析：为什么「拒绝回答」恰恰是负责任的AI设计？",
+    summary: "Anthropic的安全优先理念有时让Claude显得保守，但这种设计哲学背后是对用户真正的负责。",
+    content: `## 分析\n\nClaude经常因为安全问题拒绝回答某些问题，这让部分用户不满。但本文认为这恰恰是负责任的AI设计。\n\n## 为什么"拒绝"是美德？\n- 防止生成有害内容\n- 避免给出不准确的高风险建议\n- 尊重版权和隐私边界\n- 减少AI幻觉带来的误导\n\n## 结论\n\nClaude的安全设计不是缺陷，而是一种必须的约束。在AI能力不断膨胀的2026年，这种自律尤为珍贵。`,
+    author: mockUsers.alice,
+    scores: { usability: 8.0, privacy: 9.5, businessModel: 7.0, innovation: 9.0, overall: 8.4 },
+    pros: ["安全理念领先", "隐私保护出色", "拒绝有害请求"],
+    cons: ["有时过于保守", "功能可用性受限"],
+    bestFor: "注重AI安全和伦理的用户",
+    trustNote: "Claude是目前最值得信赖的AI助手之一。",
+    helpfulCount: 85, commentCount: 28, isCollaborative: false,
+    createdAt: "2026-05-28", updatedAt: "2026-06-15",
+  },
+  {
+    id: "r6b", slug: "claude-code-companion", appId: "8", appName: "Claude",
+    title: "Claude Code 实测：AI驱动的全栈开发体验",
+    summary: "用Claude Code完成一个完整的全栈项目，记录从需求到部署的全过程体验。",
+    content: `## 体验\n\n使用Claude Code开发了一个完整的电商后台管理系统。\n\n## 亮点\n- 能理解复杂的多步骤开发任务\n- 代码质量高于其他AI编程工具\n- 会主动提出架构建议\n- Terminal集成非常自然\n\n## 不足\n- 处理超大型代码库时会丢失上下文\n- 偶尔过于审慎，拒绝本可执行的操作`,
+    author: mockUsers.bob,
+    scores: { usability: 9.0, privacy: 9.0, businessModel: 7.5, innovation: 9.5, overall: 8.8 },
+    pros: ["代码质量最高", "架构建议好", "终端集成自然"],
+    cons: ["大型代码库上下文限制", "偶尔过于保守"],
+    bestFor: "全栈开发者、技术团队",
+    trustNote: "目前代码质量最高的AI编程助手。",
+    helpfulCount: 110, commentCount: 35, isCollaborative: false,
+    createdAt: "2026-06-10", updatedAt: "2026-06-22",
+  },
+  {
+    id: "r6c", slug: "claude-vs-chatgpt-reasoning", appId: "8", appName: "Claude",
+    title: "Claude vs ChatGPT：两大顶级AI的深度推理能力终极对决",
+    summary: "用20道涵盖逻辑、数学、伦理、创意的测试题，全面对比Claude和ChatGPT的推理能力。",
+    content: `## 测试\n\n设计20道跨领域推理题，盲测Claude 5和GPT-5。\n\n| 领域 | Claude 5 | GPT-5 |\n|------|----------|-------|\n| 逻辑推理 | ★★★★★ | ★★★★☆ |\n| 数学证明 | ★★★★☆ | ★★★★★ |\n| 伦理分析 | ★★★★★ | ★★★☆☆ |\n| 创意写作 | ★★★★☆ | ★★★★★ |\n| 代码生成 | ★★★★★ | ★★★★☆ |\n\n**结论**：逻辑和伦理领域Claude领先，数学和创意领域ChatGPT占优。各有千秋。`,
+    author: mockUsers.emma,
+    scores: { usability: 8.5, privacy: 9.0, businessModel: 7.0, innovation: 9.0, overall: 8.4 },
+    pros: ["逻辑推理最强", "伦理判断出色", "代码质量高"],
+    cons: ["数学略逊ChatGPT", "创意写作不够惊艳"],
+    bestFor: "需要严谨逻辑和伦理分析的用户",
+    trustNote: "Claude和ChatGPT在不同领域各有优势。",
+    helpfulCount: 145, commentCount: 48, isCollaborative: true, collaborators: [mockUsers.david],
+    createdAt: "2026-06-18", updatedAt: "2026-06-22",
+  },
+
+  // ---- Gemini 2 篇 ----
+  {
+    id: "r7a", slug: "gemini-google-ecosystem", appId: "9", appName: "Gemini",
+    title: "Gemini深度评测：Google生态加持下的AI新物种",
+    summary: "Gemini最大的优势在于与Google生态的深度整合。本文全面评测其在搜索、办公和学习场景的表现。",
+    content: `## 评测\n\nGemini与Google全家桶的整合是其最大卖点。本文从实际使用出发评测。\n\n## 优势\n- Google搜索实时数据让回答更准确\n- Gmail和Docs集成非常实用\n- 数学和科学推理能力顶级\n- 多模态理解出色\n\n## 不足\n- 隐私政策不透明（Google的数据收集广受批评）\n- 中文体验不如英文\n- 部分功能需付费`,
+    author: mockUsers.emma,
+    scores: { usability: 9.0, privacy: 6.0, businessModel: 8.0, innovation: 9.2, overall: 8.1 },
+    pros: ["搜索整合强大", "Google生态无缝", "数学科学顶级"],
+    cons: ["隐私政策不透明", "中文体验差", "付费墙"],
+    bestFor: "Google生态重度用户",
+    trustNote: "Google的数据收集政策是主要隐忧。",
+    helpfulCount: 68, commentCount: 20, isCollaborative: false,
+    createdAt: "2026-05-30", updatedAt: "2026-06-12",
+  },
+  {
+    id: "r7b", slug: "gemini-math-benchmark", appId: "9", appName: "Gemini",
+    title: "Gemini数学推理能力实测：AI真的懂数学吗？",
+    summary: "用50道IMO级别数学题测试Gemini、ChatGPT和Claude的数学推理能力。",
+    content: `## 测试\n\n50道IMO难度数学题，要求完整推导过程。\n\n| 模型 | 正确率 | 平均耗时 |\n|------|--------|----------|\n| Gemini Ultra 2 | 82% | 12s |\n| GPT-5 | 80% | 18s |\n| Claude 5 | 76% | 15s |\n\nGemini在数学推理上略胜一筹，尤其在几何和微积分方面表现突出。`,
+    author: mockUsers.david,
+    scores: { usability: 8.5, privacy: 6.5, businessModel: 7.5, innovation: 9.5, overall: 8.0 },
+    pros: ["数学推理最强", "速度最快", "推导步骤清晰"],
+    cons: ["隐私一般", "中文支持待改善"],
+    bestFor: "学生、研究者、工程师",
+    trustNote: "目前数学推理能力最强的AI。",
+    helpfulCount: 92, commentCount: 25, isCollaborative: false,
+    createdAt: "2026-06-12", updatedAt: "2026-06-22",
+  },
+
+  // ---- Copilot 2 篇 ----
+  {
+    id: "r8a", slug: "copilot-enterprise", appId: "10", appName: "Microsoft Copilot",
+    title: "Microsoft Copilot企业级评测：AI驱动的工作效率革命还是过度宣传？",
+    summary: "在真实企业环境中评测Microsoft Copilot对办公效率的实际提升效果。",
+    content: `## 评测\n\n在某中型企业部署Microsoft Copilot 3个月，量化效率提升。\n\n## 数据\n- Word文档编写提速45%\n- PowerPoint制作提速60%\n- Excel数据分析提速55%\n- 会议纪要生成准确率90%+\n\n## 局限性\n- 学习曲线（约2周适应期）\n- 对非英语支持不够好\n- 企业许可费用不菲`,
+    author: mockUsers.bob,
+    scores: { usability: 8.5, privacy: 5.5, businessModel: 9.0, innovation: 8.0, overall: 7.8 },
+    pros: ["Office集成深度", "效率提升显著", "企业级安全"],
+    cons: ["隐私政策复杂", "价格较高", "非英语体验差"],
+    bestFor: "Microsoft 365企业用户",
+    trustNote: "企业级部署需关注数据合规。",
+    helpfulCount: 58, commentCount: 18, isCollaborative: false,
+    createdAt: "2026-06-01", updatedAt: "2026-06-18",
+  },
+  {
+    id: "r8b", slug: "copilot-github-developer", appId: "10", appName: "Microsoft Copilot",
+    title: "GitHub Copilot 2026：AI编程已从辅助变成主力",
+    summary: "回顾GitHub Copilot从代码补全工具到全栈开发伙伴的演进历程。",
+    content: `## 演进\n\nGitHub Copilot在2026年已支持完整的功能开发，不再只是代码补全。\n\n## 能力\n- 能根据Issue描述自动实现整个功能\n- 自动生成测试覆盖率90%+\n- 支持跨文件重构\n- 安全漏洞自动检测\n\n## 反思\n- 初级开发者的依赖程度过高\n- 代码同质化问题开始显现`,
+    author: mockUsers.david,
+    scores: { usability: 9.0, privacy: 6.0, businessModel: 8.5, innovation: 9.0, overall: 8.1 },
+    pros: ["功能级开发能力", "测试生成出色", "安全检测"],
+    cons: ["过度依赖风险", "代码同质化"],
+    bestFor: "软件开发者、技术团队",
+    trustNote: "AI编程领域最成熟的商业产品。",
+    helpfulCount: 73, commentCount: 22, isCollaborative: false,
+    createdAt: "2026-06-08", updatedAt: "2026-06-22",
+  },
+
+  // ---- Perplexity 2 篇 ----
+  {
+    id: "r9a", slug: "perplexity-search-revolution", appId: "11", appName: "Perplexity",
+    title: "Perplexity评测：AI搜索引擎正在杀死传统搜索吗？",
+    summary: "深度使用Perplexity 3个月，分析它能否替代Google成为主力搜索工具。",
+    content: `## 评测\n\nPerplexity用AI重新定义了搜索体验。本文从信息准确性、时效性和用户体验三个维度评测。\n\n## 优势\n- 直接给出带引用的答案，而非链接列表\n- 信息溯源清晰，每条回答都标注来源\n- 深度研究模式能自动生成研究报告\n- 隐私政策优于Google\n\n## 局限\n- 对非英语内容覆盖不足\n- 实时性偶尔有滞后\n- 深度研究模式较慢`,
+    author: mockUsers.emma,
+    scores: { usability: 9.0, privacy: 8.5, businessModel: 6.5, innovation: 9.5, overall: 8.4 },
+    pros: ["答案带引用", "隐私优秀", "深度研究模式"],
+    cons: ["非英语覆盖不足", "实时性偶有滞后"],
+    bestFor: "研究者、信息工作者",
+    trustNote: "AI搜索引擎中最值得信赖的选择。",
+    helpfulCount: 81, commentCount: 25, isCollaborative: false,
+    createdAt: "2026-06-05", updatedAt: "2026-06-20",
+  },
+  {
+    id: "r9b", slug: "perplexity-vs-traditional-search", appId: "11", appName: "Perplexity",
+    title: "Perplexity vs Google：100个搜索对比，AI搜索赢在哪里？",
+    summary: "用100个不同领域的搜索词对比Perplexity和Google，量化AI搜索的优势和劣势。",
+    content: `## 测试\n\n100个搜索词，涵盖新闻、学术、购物、技术、医疗等领域。\n\n| 维度 | Perplexity | Google |\n|------|-----------|--------|\n| 答案准确性 | 92% | 85% |\n| 搜索速度 | 3s | 0.5s |\n| 引用质量 | ★★★★★ | ★★★☆☆ |\n| 无广告体验 | ★★★★★ | ★☆☆☆☆ |\n\nAI搜索在准确性和体验上明显领先，但速度仍是短板。`,
+    author: mockUsers.alice,
+    scores: { usability: 8.5, privacy: 9.0, businessModel: 7.0, innovation: 9.0, overall: 8.4 },
+    pros: ["答案准确", "引用清晰", "无广告"],
+    cons: ["速度较慢", "中文覆盖待提升"],
+    bestFor: "追求高质量搜索体验的用户",
+    trustNote: "AI搜索代表了搜索的未来方向。",
+    helpfulCount: 95, commentCount: 30, isCollaborative: false,
+    createdAt: "2026-06-15", updatedAt: "2026-06-22",
+  },
+
+  // ---- Grok 1 篇 ----
+  {
+    id: "r10a", slug: "grok-unfiltered-ai", appId: "12", appName: "Grok",
+    title: "Grok评测：最「不政治正确」的AI助手，是清流还是泥石流？",
+    summary: "Grok以「不加过滤」的个性著称。本文评测这种设计理念在实际使用中的表现和风险。",
+    content: `## 评测\n\nGrok的卖点是「不加过滤的回答」。本文从言论自由、信息准确性和伦理边界三个角度评测。\n\n## 优点\n- 回答风格直接，不绕弯\n- X平台数据整合独特\n- 实时信息获取能力强\n- 对话体验有趣\n\n## 缺点\n- 隐私政策极不透明\n- 部分回答准确性存疑\n- 缺乏安全护栏令人担忧\n- 中国市场无法使用`,
+    author: mockUsers.bob,
+    scores: { usability: 7.0, privacy: 4.5, businessModel: 6.0, innovation: 8.0, overall: 6.4 },
+    pros: ["回答直接", "X数据独特", "实时性强"],
+    cons: ["隐私极差", "准确性存疑", "缺乏安全护栏"],
+    bestFor: "对言论自由有特殊偏好的用户",
+    trustNote: "Grok的隐私和安全问题值得高度警惕。",
+    helpfulCount: 45, commentCount: 18, isCollaborative: false,
+    createdAt: "2026-06-18", updatedAt: "2026-06-22",
+  },
+
+  // ---- 即梦 1 篇 ----
+  {
+    id: "r11a", slug: "jimeng-ai-video", appId: "4", appName: "即梦",
+    title: "即梦AI视频生成评测：人人都能做导演的时代来了吗？",
+    summary: "实测即梦的文生视频和图生视频功能，评估其在短视频创作中的实际价值。",
+    content: `## 评测\n\n即梦是字节跳动的AI视频生成工具。本文用10个不同场景的提示词进行测试。\n\n## 结果\n- 简单场景（风景、动物）生成质量较高\n- 复杂人物动作仍有明显破绽\n- 中文提示词理解优于英文\n- 免费额度够日常使用\n\n## 适合场景\n- 短视频创作者快速出片\n- 电商产品展示视频\n- 社交媒体内容创作`,
+    author: mockUsers.carol,
+    scores: { usability: 8.0, privacy: 5.0, businessModel: 6.5, innovation: 9.0, overall: 7.2 },
+    pros: ["中文理解好", "免费额度足", "生成速度快"],
+    cons: ["复杂场景差", "隐私表现差", "风格有限"],
+    bestFor: "短视频创作者、电商运营",
+    trustNote: "AI视频生成仍处早期，隐私需关注。",
+    helpfulCount: 52, commentCount: 16, isCollaborative: false,
+    createdAt: "2026-06-10", updatedAt: "2026-06-22",
   },
 ];
 
+// ================================================================
+// 榜单
+// ================================================================
 export const mockRankings: Ranking[] = [
   {
     id: "weekly-hot",
     title: "本周热门评测",
     description: "过去7天最受关注的App评测",
     type: "weekly",
-    apps: [mockApps[1], mockApps[0], mockApps[2], mockApps[4], mockApps[3]],
+    apps: [mockApps[6], mockApps[1], mockApps[7], mockApps[0], mockApps[10]],
   },
   {
     id: "ai-top",
     title: "AI工具 Top10",
     description: "2026年最值得关注的AI应用",
     type: "category",
-    apps: [mockApps[1], mockApps[0], mockApps[2], mockApps[3]],
+    apps: [mockApps[6], mockApps[7], mockApps[1], mockApps[8], mockApps[9], mockApps[0], mockApps[2], mockApps[10], mockApps[3], mockApps[11]],
   },
   {
     id: "privacy-best",
     title: "隐私最佳",
     description: "数据透明度最高的App",
     type: "editorPick",
-    apps: [mockApps[1], mockApps[4], mockApps[2], mockApps[0]],
+    apps: [mockApps[7], mockApps[1], mockApps[10], mockApps[0]],
   },
 ];
 
-// 当前登录用户 Mock（开发用）
+// 当前登录用户 Mock
 export const mockCurrentUser: UserProfile = mockUsers.alice;

@@ -3,22 +3,24 @@ import { cn } from "@/lib/utils";
 import { ComponentProps } from "react";
 
 type LinkButtonProps = ComponentProps<typeof Link> & {
-  variant?: "default" | "outline" | "ghost" | "secondary";
+  variant?: "default" | "outline" | "ghost";
   size?: "sm" | "md" | "lg" | "icon";
 };
 
 const variantStyles = {
-  default: "bg-primary text-primary-foreground hover:bg-primary/80",
-  outline: "border border-border bg-background hover:bg-muted hover:text-foreground",
-  ghost: "hover:bg-muted hover:text-foreground",
-  secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+  default:
+    "bg-black text-white border-2 border-black hover:bg-white hover:text-black",
+  outline:
+    "border-2 border-black bg-white text-black hover:bg-black hover:text-white",
+  ghost:
+    "text-black hover:underline underline-offset-4",
 };
 
 const sizeStyles = {
-  sm: "h-7 gap-1 rounded-lg px-2.5 text-xs",
-  md: "h-8 gap-1.5 px-2.5 text-sm",
-  lg: "h-10 gap-2 px-4 text-base rounded-xl",
-  icon: "size-8",
+  sm: "h-8 gap-1.5 px-3 text-xs",
+  md: "h-9 gap-2 px-4 text-sm",
+  lg: "h-12 gap-2 px-8 text-sm",
+  icon: "size-9",
 };
 
 export function LinkButton({
@@ -31,7 +33,7 @@ export function LinkButton({
   return (
     <Link
       className={cn(
-        "inline-flex shrink-0 items-center justify-center font-medium whitespace-nowrap transition-colors rounded-lg disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "inline-flex shrink-0 items-center justify-center font-medium tracking-widest uppercase whitespace-nowrap transition-colors duration-100 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         variantStyles[variant],
         sizeStyles[size],
         className

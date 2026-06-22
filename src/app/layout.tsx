@@ -1,25 +1,37 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Playfair_Display, Source_Serif_4, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { Footer } from "@/components/layout/footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const playfair = Playfair_Display({
   subsets: ["latin"],
+  variable: "--font-serif-display",
+  display: "swap",
+  weight: ["700", "900"],
+  style: ["normal"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
+  variable: "--font-serif-body",
+  display: "swap",
+  weight: ["400", "600"],
+});
+
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
-  title: "App 观察站 · 数字经济视角的App评测社区",
+  title: "拆解 · 数字经济视角的 App 评测社区",
   description:
-    "从用户价值与数据可靠性出发，评测和追踪热门App。多人协作的社区型App评测平台，聚焦AI工具、隐私透明度和商业模式分析。",
-  keywords: ["App评测", "AI工具", "数字经济", "隐私评估", "应用榜单", "社区评测"],
+    "从用户价值与数据可靠性出发，拆解每一款热门应用。多人协作的社区型 App 评测平台。",
+  keywords: ["拆解", "App评测", "数字经济", "隐私评估", "应用榜单", "社区评测"],
 };
 
 export default function RootLayout({
@@ -30,9 +42,9 @@ export default function RootLayout({
   return (
     <html
       lang="zh-CN"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${playfair.variable} ${sourceSerif.variable} ${jetbrains.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#F8FAFC]">
+      <body className="min-h-full flex flex-col bg-white text-black">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
