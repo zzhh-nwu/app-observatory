@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 const W = 720;
 const H = 1020;
 const CX = W / 2;
-const CY = H * 0.40;
+const CY = H * 0.44;
 
 // ---- 情绪色系统 ----
 const RED = "#b22234";
@@ -30,20 +30,20 @@ const PAPER = "#faf8f5";
 // ---- 伪随机 ----
 function rng(i: number) { return ((i * 7919 + 271) % 10007) / 10007; }
 
-// ---- 手机参数 ----
-const PW = 130; const PH = 260; const PR = 16;
+// ---- 手机参数（放大 1.4x）----
+const PW = 182; const PH = 364; const PR = 20;
 const PX = CX - PW / 2; const PY = CY - PH / 2;
 
 // ---- App 标本 ----
 const apps = [
-  { icon: "🧠", name: "ChatGPT", lx: 130, ly: 195 },
-  { icon: "🎭", name: "Claude", lx: 565, ly: 185 },
-  { icon: "🐋", name: "DeepSeek", lx: 105, ly: 430 },
-  { icon: "💎", name: "Gemini", lx: 590, ly: 410 },
-  { icon: "🫘", name: "豆包", lx: 145, ly: 655 },
-  { icon: "🤖", name: "Copilot", lx: 570, ly: 645 },
-  { icon: "🔎", name: "Perplexity", lx: 115, ly: 870 },
-  { icon: "📝", name: "Notion", lx: 585, ly: 860 },
+  { icon: "🧠", name: "ChatGPT", lx: 115, ly: 160 },
+  { icon: "🎭", name: "Claude", lx: 590, ly: 150 },
+  { icon: "🐋", name: "DeepSeek", lx: 90, ly: 450 },
+  { icon: "💎", name: "Gemini", lx: 615, ly: 430 },
+  { icon: "🫘", name: "豆包", lx: 125, ly: 720 },
+  { icon: "🤖", name: "Copilot", lx: 595, ly: 700 },
+  { icon: "🔎", name: "Perplexity", lx: 95, ly: 920 },
+  { icon: "📝", name: "Notion", lx: 610, ly: 910 },
 ];
 
 // ---- 四个维度 ----
@@ -122,33 +122,33 @@ function buildLines(): L[] {
   let all: L[] = [];
 
   // ---- 核心：手机轮廓反复描摹 ----
-  all = all.concat(traceRect(PX, PY, PW, PH, 18, 0.82, 1.5, RED, 1));
+  all = all.concat(traceRect(PX, PY, PW, PH, 22, 0.82, 1.8, RED, 1));
   // 屏幕区域
-  all = all.concat(traceRect(PX + 18, PY + 28, PW - 36, 138, 8, 0.55, 0.9, RED_M, 500));
+  all = all.concat(traceRect(PX + 24, PY + 38, PW - 48, 190, 10, 0.55, 1.0, RED_M, 500));
 
   // ---- 屏幕内的评分条 ----
   for (let i = 0; i < dims.length; i++) {
-    const by = PY + 50 + i * 34;
-    const bw = 76;
+    const by = PY + 62 + i * 48;
+    const bw = 106;
     const bx = CX - bw / 2;
     // 标签线
-    all = all.concat(trace(bx - 48, by + 4, bx - 4, by + 4, 3, 0.35, 0.5, RED_L, 1000 + i * 40));
+    all = all.concat(trace(bx - 60, by + 5, bx - 6, by + 5, 4, 0.35, 0.5, RED_L, 1000 + i * 40));
     // 进度条底色
-    all = all.concat(traceRect(bx, by, bw, 12, 3, 0.2, 0.4, RED_F, 1100 + i * 40));
+    all = all.concat(traceRect(bx, by, bw, 16, 4, 0.2, 0.4, RED_F, 1100 + i * 40));
     // 进度条填充
     const fw = bw * (dims[i].val / 10);
-    all = all.concat(traceRect(bx, by, fw, 12, 5, 0.5, 0.8, dims[i].color, 1200 + i * 40));
+    all = all.concat(traceRect(bx, by, fw, 16, 6, 0.5, 0.8, dims[i].color, 1200 + i * 40));
   }
 
   // ---- 综合评分数字区域 ----
-  for (let r = 0; r < 3; r++) {
-    const ry = PY + 195;
-    all = all.concat(trace(CX - 18, ry, CX + 18, ry, 4, 0.4, 0.6, RED, 2000 + r));
+  for (let r = 0; r < 4; r++) {
+    const ry = PY + 270;
+    all = all.concat(trace(CX - 30, ry, CX + 30, ry, 5, 0.4, 0.7, RED, 2000 + r));
   }
 
   // ---- App 标本框 ----
   apps.forEach((app, i) => {
-    all = all.concat(traceRect(app.lx - 34, app.ly - 16, 68, 32, 3, 0.25, 0.4, RED_L, 3000 + i * 50));
+    all = all.concat(traceRect(app.lx - 44, app.ly - 20, 88, 40, 4, 0.25, 0.45, RED_L, 3000 + i * 50));
     // 连接线到手机
     const tx = app.lx < CX ? PX : PX + PW;
     const ty = app.ly < CY ? PY : PY + PH;
@@ -157,20 +157,19 @@ function buildLines(): L[] {
 
   // ---- 四维度测量线（从手机四角向外） ----
   const corners: [number, number][] = [
-    [CX, PY - 15],          // 上
-    [PX + PW + 10, PY + 40],  // 右
-    [PX + PW + 10, PY + PH - 40], // 右下
-    [CX, PY + PH + 15],     // 下
+    [CX, PY - 20],
+    [PX + PW + 15, PY + 60],
+    [PX + PW + 15, PY + PH - 60],
+    [CX, PY + PH + 20],
   ];
   dims.forEach((d, i) => {
     const [sx, sy] = corners[i];
-    const tx = sx + (i === 1 || i === 2 ? 100 : 0);
-    const ty = sy + (i === 0 ? -110 : i === 1 ? 60 : i === 2 ? 100 : 110);
-    all = all.concat(trace(sx, sy, tx, ty, 5, 0.35, 0.7, d.color, 4000 + i * 10));
-    // 端点圆
-    for (let r = 0; r < 6; r++) {
-      const a = (r / 6) * Math.PI * 2;
-      all.push({ x1: tx, y1: ty, x2: tx + Math.cos(a) * 14, y2: ty + Math.sin(a) * 14, op: 0.32, sw: 0.5, c: d.color });
+    const tx = sx + (i === 1 || i === 2 ? 120 : 0);
+    const ty = sy + (i === 0 ? -140 : i === 1 ? 80 : i === 2 ? 130 : 140);
+    all = all.concat(trace(sx, sy, tx, ty, 6, 0.35, 0.7, d.color, 4000 + i * 10));
+    for (let r = 0; r < 7; r++) {
+      const a = (r / 7) * Math.PI * 2;
+      all.push({ x1: tx, y1: ty, x2: tx + Math.cos(a) * 18, y2: ty + Math.sin(a) * 18, op: 0.32, sw: 0.55, c: d.color });
     }
   });
 
@@ -232,11 +231,11 @@ export default function PosterPage() {
           {/* ========== 文字：App 标本标签 ========== */}
           {apps.map((app, i) => (
             <g key={`t-${i}`}>
-              <text x={app.lx} y={app.ly - 1}
-                    fontSize={14} textAnchor="middle" dominantBaseline="middle">{app.icon}</text>
-              <text x={app.lx} y={app.ly + 15}
-                    fontFamily="'JetBrains Mono', monospace" fontSize={7}
-                    fill={INK} opacity={0.5} textAnchor="middle" letterSpacing="0.08em">
+              <text x={app.lx} y={app.ly - 2}
+                    fontSize={24} textAnchor="middle" dominantBaseline="middle">{app.icon}</text>
+              <text x={app.lx} y={app.ly + 20}
+                    fontFamily="'JetBrains Mono', monospace" fontSize={13}
+                    fill={INK} opacity={0.55} textAnchor="middle" letterSpacing="0.08em">
                 {app.name}
               </text>
             </g>
@@ -245,45 +244,45 @@ export default function PosterPage() {
           {/* ========== 文字：屏幕内评分标签 ========== */}
           {dims.map((d, i) => (
             <g key={`dl-${i}`}>
-              <text x={CX - 62} y={PY + 53 + i * 34 + 4}
-                    fontFamily="'JetBrains Mono', monospace" fontSize={7}
-                    fill={INK} opacity={0.5} letterSpacing="0.08em">
+              <text x={CX - 78} y={PY + 65 + i * 48 + 5}
+                    fontFamily="'JetBrains Mono', monospace" fontSize={14}
+                    fill={INK} opacity={0.55} letterSpacing="0.08em">
                 {d.label}
               </text>
-              <text x={CX + 62} y={PY + 53 + i * 34 + 4}
-                    fontFamily="'JetBrains Mono', monospace" fontSize={7}
-                    fill={d.color} opacity={0.55} textAnchor="end" fontWeight={600}>
+              <text x={CX + 78} y={PY + 65 + i * 48 + 5}
+                    fontFamily="'JetBrains Mono', monospace" fontSize={14}
+                    fill={d.color} opacity={0.6} textAnchor="end" fontWeight={600}>
                 {d.val}
               </text>
             </g>
           ))}
 
           {/* ========== 文字：屏幕内综合评分 ========== */}
-          <text x={CX} y={PY + 205}
-                fontFamily="'JetBrains Mono', monospace" fontSize={18}
+          <text x={CX} y={PY + 280}
+                fontFamily="'JetBrains Mono', monospace" fontSize={36}
                 fill={INK} fontWeight={700} textAnchor="middle" opacity={0.7}>
             8.3
           </text>
-          <text x={CX} y={PY + 218}
-                fontFamily="'JetBrains Mono', monospace" fontSize={6}
-                fill={GRAY} textAnchor="middle" letterSpacing="0.15em" opacity={0.45}>
+          <text x={CX} y={PY + 302}
+                fontFamily="'JetBrains Mono', monospace" fontSize={12}
+                fill={GRAY} textAnchor="middle" letterSpacing="0.15em" opacity={0.5}>
             OVERALL / 10
           </text>
 
           {/* ========== 文字：四维端点标签 ========== */}
           {dims.map((d, i) => {
-            const corners: [number, number][] = [[CX, PY - 130], [PX + PW + 120, PY + 30], [PX + PW + 120, PY + PH - 30], [CX, PY + PH + 130]];
+            const corners: [number, number][] = [[CX, PY - 160], [PX + PW + 135, PY + 50], [PX + PW + 135, PY + PH - 50], [CX, PY + PH + 160]];
             const [tx, ty] = corners[i];
             return (
               <g key={`ex-${i}`}>
-                <text x={tx} y={ty - 16}
-                      fontFamily="'JetBrains Mono', monospace" fontSize={7}
-                      fill={d.color} opacity={0.5} textAnchor="middle" letterSpacing="0.12em">
+                <text x={tx} y={ty - 22}
+                      fontFamily="'JetBrains Mono', monospace" fontSize={14}
+                      fill={d.color} opacity={0.55} textAnchor="middle" letterSpacing="0.12em">
                   {d.label}
                 </text>
-                <text x={tx} y={ty + 24}
-                      fontFamily="'JetBrains Mono', monospace" fontSize={9}
-                      fill={d.color} opacity={0.55} textAnchor="middle" fontWeight={600}>
+                <text x={tx} y={ty + 34}
+                      fontFamily="'JetBrains Mono', monospace" fontSize={18}
+                      fill={d.color} opacity={0.6} textAnchor="middle" fontWeight={600}>
                   {d.val}
                 </text>
               </g>
@@ -291,65 +290,72 @@ export default function PosterPage() {
           })}
 
           {/* ========== 文字：编辑式边缘注释 ========== */}
-          {/* 顶部标题 */}
-          <text x={40} y={56} fontFamily="'JetBrains Mono', monospace" fontSize={11}
-                fill={INK} fontWeight={500} letterSpacing="0.3em">拆解</text>
-          <text x={40} y={70} fontFamily="'JetBrains Mono', monospace" fontSize={7}
-                fill={GRAY} letterSpacing="0.15em">DECONSTRUCT · APP OBSERVATORY</text>
-          <line x1={40} y1={78} x2={210} y2={78} stroke={INK} strokeWidth={0.5} opacity={0.2} />
+          {/* 顶部标题 —— 大字突出 */}
+          <text x={CX} y={72}
+                fontFamily="'Noto Serif SC', 'STSong', serif" fontSize={48}
+                fill={INK} fontWeight={900} textAnchor="middle" letterSpacing="0.25em">
+            拆 解
+          </text>
+          <line x1={CX - 130} y1={90} x2={CX + 130} y2={90} stroke={INK} strokeWidth={0.8} opacity={0.18} />
+
+          <text x={CX} y={114}
+                fontFamily="'JetBrains Mono', monospace" fontSize={14}
+                fill={GRAY} textAnchor="middle" letterSpacing="0.25em">
+            DECONSTRUCT · APP OBSERVATORY
+          </text>
 
           {/* 右上 */}
-          <text x={W - 40} y={56} fontFamily="'JetBrains Mono', monospace" fontSize={8}
-                fill={RED} letterSpacing="0.18em" textAnchor="end" opacity={0.55}>VOL.01</text>
-          <text x={W - 40} y={70} fontFamily="'JetBrains Mono', monospace" fontSize={7}
+          <text x={W - 44} y={64} fontFamily="'JetBrains Mono', monospace" fontSize={16}
+                fill={RED} letterSpacing="0.18em" textAnchor="end" opacity={0.6}>VOL.01</text>
+          <text x={W - 44} y={82} fontFamily="'JetBrains Mono', monospace" fontSize={13}
                 fill={GRAY} letterSpacing="0.1em" textAnchor="end">2026.06.23</text>
 
           {/* 左下 */}
-          <text x={40} y={H - 55} fontFamily="'Noto Serif SC', 'STSong', serif"
-                fontSize={12} fill={INK} fontWeight={400} letterSpacing="0.06em">
+          <text x={48} y={H - 64} fontFamily="'Noto Serif SC', 'STSong', serif"
+                fontSize={22} fill={INK} fontWeight={400} letterSpacing="0.06em">
             将完整之物分解为零件，理解其构造。
           </text>
-          <text x={40} y={H - 36} fontFamily="'JetBrains Mono', monospace"
-                fontSize={7} fill={GRAY} letterSpacing="0.1em">
+          <text x={48} y={H - 38} fontFamily="'JetBrains Mono', monospace"
+                fontSize={13} fill={GRAY} letterSpacing="0.1em">
             数字经济课程实践项目 · 智能体编程 · 2026
           </text>
 
           {/* 右下诊断 */}
-          <text x={W - 40} y={H - 60} fontFamily="'JetBrains Mono', monospace"
-                fontSize={8} fill={INK} letterSpacing="0.12em" textAnchor="end" fontWeight={500}>
+          <text x={W - 44} y={H - 72} fontFamily="'JetBrains Mono', monospace"
+                fontSize={16} fill={INK} letterSpacing="0.12em" textAnchor="end" fontWeight={500}>
             APP DIAGNOSIS
           </text>
-          <text x={W - 40} y={H - 44} fontFamily="'JetBrains Mono', monospace"
-                fontSize={7} fill={GRAY} letterSpacing="0.08em" textAnchor="end">
+          <text x={W - 44} y={H - 52} fontFamily="'JetBrains Mono', monospace"
+                fontSize={13} fill={GRAY} letterSpacing="0.08em" textAnchor="end">
             四维评分 · 隐私评级 · 社区协作
           </text>
 
           {/* 底部标签 */}
-          <rect x={40} y={H - 18} width={80} height={14} fill="none"
-                stroke={RED} strokeWidth={0.6} opacity={0.3} />
-          <text x={80} y={H - 7} fontFamily="'JetBrains Mono', monospace" fontSize={6}
-                fill={RED} opacity={0.4} textAnchor="middle" letterSpacing="0.08em">A→C 隐私评级</text>
+          <rect x={48} y={H - 24} width={110} height={20} fill="none"
+                stroke={RED} strokeWidth={0.8} opacity={0.35} />
+          <text x={103} y={H - 10} fontFamily="'JetBrains Mono', monospace" fontSize={12}
+                fill={RED} opacity={0.45} textAnchor="middle" letterSpacing="0.08em">A→C 隐私评级</text>
 
-          <rect x={130} y={H - 18} width={80} height={14} fill="none"
-                stroke={RED_M} strokeWidth={0.6} opacity={0.3} />
-          <text x={170} y={H - 7} fontFamily="'JetBrains Mono', monospace" fontSize={6}
-                fill={RED_M} opacity={0.4} textAnchor="middle" letterSpacing="0.08em">四维评分体系</text>
+          <rect x={170} y={H - 24} width={110} height={20} fill="none"
+                stroke={RED_M} strokeWidth={0.8} opacity={0.35} />
+          <text x={225} y={H - 10} fontFamily="'JetBrains Mono', monospace" fontSize={12}
+                fill={RED_M} opacity={0.45} textAnchor="middle" letterSpacing="0.08em">四维评分体系</text>
 
-          <rect x={220} y={H - 18} width={80} height={14} fill="none"
-                stroke={INK} strokeWidth={0.6} opacity={0.25} />
-          <text x={260} y={H - 7} fontFamily="'JetBrains Mono', monospace" fontSize={6}
-                fill={GRAY} opacity={0.4} textAnchor="middle" letterSpacing="0.08em">社区协作开源</text>
+          <rect x={292} y={H - 24} width={110} height={20} fill="none"
+                stroke={INK} strokeWidth={0.8} opacity={0.3} />
+          <text x={347} y={H - 10} fontFamily="'JetBrains Mono', monospace" fontSize={12}
+                fill={GRAY} opacity={0.45} textAnchor="middle" letterSpacing="0.08em">社区协作开源</text>
 
           {/* 右侧情绪色标记 */}
-          <line x1={W - 16} y1={H * 0.28} x2={W - 16} y2={H * 0.52}
-                stroke={RED} strokeWidth={0.7} opacity={0.25} />
-          <circle cx={W - 16} cy={H * 0.28} r={2.2} fill="none" stroke={RED} strokeWidth={0.7} opacity={0.3} />
+          <line x1={W - 20} y1={H * 0.30} x2={W - 20} y2={H * 0.55}
+                stroke={RED} strokeWidth={1.0} opacity={0.3} />
+          <circle cx={W - 20} cy={H * 0.30} r={3.5} fill="none" stroke={RED} strokeWidth={1.0} opacity={0.35} />
 
           {/* 旋转标注 */}
-          <text x={W * 0.72} y={H * 0.76}
-                fontFamily="'JetBrains Mono', monospace" fontSize={7}
-                fill={RED} letterSpacing="0.2em" opacity={0.35}
-                transform={`rotate(-90, ${W * 0.72}, ${H * 0.76})`}>
+          <text x={W * 0.70} y={H * 0.78}
+                fontFamily="'JetBrains Mono', monospace" fontSize={14}
+                fill={RED} letterSpacing="0.2em" opacity={0.4}
+                transform={`rotate(-90, ${W * 0.70}, ${H * 0.78})`}>
             EXPLODED VIEW
           </text>
         </svg>
