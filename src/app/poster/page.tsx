@@ -157,10 +157,10 @@ function buildLines(): L[] {
 
   // ---- 四维度测量线 ----
   const measureCorners: { sx: number; sy: number; tx: number; ty: number }[] = [
-    { sx: PX - 10, sy: CY, tx: PX - 195, ty: CY },               // 好用度 → 左
-    { sx: PX + PW + 20, sy: PY + 90, tx: PX + PW + 150, ty: PY + 150 },  // 隐私 → 右上（不动）
-    { sx: PX + PW + 20, sy: PY + PH - 90, tx: PX + PW + 150, ty: PY + PH - 10 }, // 商业模式 → 右下（不动）
-    { sx: PX + PW + 10, sy: CY, tx: PX + PW + 195, ty: CY },     // 创新 → 右
+    { sx: PX - 10, sy: CY, tx: PX - 195, ty: CY },                     // 好用度 → 左
+    { sx: PX + PW + 20, sy: PY + 90, tx: PX + PW + 150, ty: PY + 150 },  // 隐私 → 右上
+    { sx: PX + PW + 20, sy: PY + PH - 90, tx: PX + PW + 150, ty: PY + PH - 10 }, // 商业模式 → 右下
+    { sx: CX, sy: PY + PH + 10, tx: CX, ty: PY + PH + 195 },           // 创新 → 下
   ];
   dims.forEach((d, i) => {
     const { sx, sy, tx, ty } = measureCorners[i];
@@ -242,14 +242,14 @@ export default function PosterPage() {
           {/* ========== 文字：屏幕内评分标签 ========== */}
           {dims.map((d, i) => (
             <g key={`dl-${i}`}>
-              <text x={CX - 78} y={PY + 70 + i * 58 + 8}
+              <text x={CX - 58} y={PY + 70 + i * 58 + 8}
                     fontFamily="'JetBrains Mono', monospace" fontSize={14}
-                    fill={INK} opacity={0.55} letterSpacing="0.08em">
+                    fill={INK} opacity={0.55} textAnchor="end" letterSpacing="0.08em">
                 {d.label}
               </text>
-              <text x={CX + 78} y={PY + 70 + i * 58 + 8}
+              <text x={CX + 58} y={PY + 70 + i * 58 + 8}
                     fontFamily="'JetBrains Mono', monospace" fontSize={14}
-                    fill={d.color} opacity={0.6} textAnchor="end" fontWeight={600}>
+                    fill={d.color} opacity={0.6} textAnchor="start" fontWeight={600}>
                 {d.val}
               </text>
             </g>
@@ -271,9 +271,9 @@ export default function PosterPage() {
           {dims.map((d, i) => {
             const corners: [number, number][] = [
               [PX - 195, CY],                 // 好用度 → 左
-              [PX + PW + 150, PY + 150],      // 隐私 → 右上（不动）
-              [PX + PW + 150, PY + PH - 10],  // 商业模式 → 右下（不动）
-              [PX + PW + 195, CY],            // 创新 → 右
+              [PX + PW + 150, PY + 150],      // 隐私 → 右上
+              [PX + PW + 150, PY + PH - 10],  // 商业模式 → 右下
+              [CX, PY + PH + 195],            // 创新 → 下
             ];
             const [tx, ty] = corners[i];
             return (
@@ -281,7 +281,7 @@ export default function PosterPage() {
                 <text x={tx} y={ty - 22}
                       fontFamily="'JetBrains Mono', monospace" fontSize={14}
                       fill={d.color} opacity={0.55}
-                      textAnchor={i === 0 ? "end" : i === 3 ? "start" : "middle"}
+                      textAnchor={i === 0 ? "end" : "middle"}
                       letterSpacing="0.12em">
                   {d.label}
                 </text>
