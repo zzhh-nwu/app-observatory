@@ -128,10 +128,9 @@ function buildLines(): L[] {
 
   // ---- 屏幕内的评分条 ----
   for (let i = 0; i < dims.length; i++) {
-    const by = PY + 72 + i * 58;
-    const bw = 106;
+    const by = PY + 80 + i * 58;
+    const bw = 112;
     const bx = CX - bw / 2;
-    all = all.concat(trace(bx - 60, by + 8, bx - 6, by + 8, 4, 0.35, 0.5, RED_L, 1000 + i * 40));
     all = all.concat(traceRect(bx, by, bw, 16, 4, 0.2, 0.4, RED_F, 1100 + i * 40));
     const fw = bw * (dims[i].val / 10);
     all = all.concat(traceRect(bx, by, fw, 16, 6, 0.5, 0.8, dims[i].color, 1200 + i * 40));
@@ -239,12 +238,14 @@ export default function PosterPage() {
           {/* ========== 文字：屏幕内评分标签 ========== */}
           {dims.map((d, i) => (
             <g key={`dl-${i}`}>
-              <text x={CX - 58} y={PY + 74 + i * 58 + 8}
-                    fontFamily="'JetBrains Mono', monospace" fontSize={14}
-                    fill={INK} opacity={0.55} textAnchor="end" letterSpacing="0.08em">
+              {/* 标签在上 */}
+              <text x={CX} y={PY + 62 + i * 58}
+                    fontFamily="'JetBrains Mono', monospace" fontSize={13}
+                    fill={INK} opacity={0.55} textAnchor="middle" letterSpacing="0.08em">
                 {d.label}
               </text>
-              <text x={CX + 58} y={PY + 74 + i * 58 + 8}
+              {/* 值在右 */}
+              <text x={CX + 64} y={PY + 82 + i * 58 + 8}
                     fontFamily="'JetBrains Mono', monospace" fontSize={14}
                     fill={d.color} opacity={0.6} textAnchor="start" fontWeight={600}>
                 {d.val}
@@ -275,14 +276,14 @@ export default function PosterPage() {
             const [tx, ty] = corners[i];
             return (
               <g key={`ex-${i}`}>
-                <text x={tx} y={ty - 22}
+                <text x={tx} y={ty - 6}
                       fontFamily="'JetBrains Mono', monospace" fontSize={14}
                       fill={d.color} opacity={0.55}
                       textAnchor={i === 0 ? "end" : "middle"}
                       letterSpacing="0.12em">
                   {d.label}
                 </text>
-                <text x={tx} y={ty + 34}
+                <text x={tx} y={ty + 14}
                       fontFamily="'JetBrains Mono', monospace" fontSize={18}
                       fill={d.color} opacity={0.6}
                       textAnchor={i === 0 ? "end" : i === 3 ? "start" : "middle"} fontWeight={600}>
