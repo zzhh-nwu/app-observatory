@@ -155,17 +155,15 @@ function buildLines(): L[] {
     all = all.concat(trace(app.lx, app.ly, tx, ty, 1, 0.1, 0.25, RED_F, 3500 + i));
   });
 
-  // ---- 四维度测量线（从手机四角向外） ----
-  const measureCorners: [number, number][] = [
-    [CX, PY - 25],
-    [PX + PW + 20, PY + 90],
-    [PX + PW + 20, PY + PH - 90],
-    [CX, PY + PH + 25],
+  // ---- 四维度测量线（左/上/下/右） ----
+  const measureLines: { sx: number; sy: number; tx: number; ty: number }[] = [
+    { sx: PX - 10, sy: CY, tx: PX - 180, ty: CY },            // 好用度 → 左
+    { sx: CX, sy: PY - 10, tx: CX, ty: PY - 200 },             // 隐私 → 上
+    { sx: CX, sy: PY + PH + 10, tx: CX, ty: PY + PH + 200 },   // 商业模式 → 下
+    { sx: PX + PW + 10, sy: CY, tx: PX + PW + 180, ty: CY },   // 创新 → 右
   ];
   dims.forEach((d, i) => {
-    const [sx, sy] = measureCorners[i];
-    const tx = sx + (i === 1 || i === 2 ? 130 : 0);
-    const ty = sy + (i === 0 ? -175 : i === 1 ? 60 : i === 2 ? 100 : 170);
+    const { sx, sy, tx, ty } = measureLines[i];
     all = all.concat(trace(sx, sy, tx, ty, 6, 0.35, 0.7, d.color, 4000 + i * 10));
     for (let r = 0; r < 7; r++) {
       const a = (r / 7) * Math.PI * 2;
@@ -271,18 +269,28 @@ export default function PosterPage() {
 
           {/* ========== 文字：四维端点标签 ========== */}
           {dims.map((d, i) => {
-            const corners: [number, number][] = [[CX, PY - 220], [PX + PW + 160, PY + 80], [PX + PW + 160, PY + PH - 80], [CX, PY + PH + 210]];
-            const [tx, ty] = corners[i];
+            const endpoints: [number, number][] = [
+              [PX - 180, CY],              // 好用度 → 手机左侧
+              [CX, PY - 200],              // 隐私 → 手机上方
+              [CX, PY + PH + 200],         // 商业模式 → 手机下方
+              [PX + PW + 180, CY],         // 创新 → 手机右侧
+            ];
+            const [tx, ty] = endpoints[i];
             return (
               <g key={`ex-${i}`}>
+                {/* 好用度左侧：文字在端点左方；创新右侧：文字在端点右方 */}
                 <text x={tx} y={ty - 22}
                       fontFamily="'JetBrains Mono', monospace" fontSize={14}
-                      fill={d.color} opacity={0.55} textAnchor="middle" letterSpacing="0.12em">
+                      fill={d.color} opacity={0.55}
+                      textAnchor={i === 3 ? "start" : i === 0 ? "end" : "middle"}
+                      letterSpacing="0.12em">
                   {d.label}
                 </text>
                 <text x={tx} y={ty + 34}
                       fontFamily="'JetBrains Mono', monospace" fontSize={18}
-                      fill={d.color} opacity={0.6} textAnchor="middle" fontWeight={600}>
+                      fill={d.color} opacity={0.6}
+                      textAnchor={i === 3 ? "start" : i === 0 ? "end" : "middle"}
+                      fontWeight={600}>
                   {d.val}
                 </text>
               </g>
