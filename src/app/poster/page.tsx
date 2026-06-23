@@ -123,26 +123,23 @@ function buildLines(): L[] {
 
   // ---- 核心：手机轮廓反复描摹 ----
   all = all.concat(traceRect(PX, PY, PW, PH, 22, 0.82, 1.8, RED, 1));
-  // 屏幕区域
-  all = all.concat(traceRect(PX + 24, PY + 38, PW - 48, 190, 10, 0.55, 1.0, RED_M, 500));
+  // 屏幕区域（加高，罩住所有内部文字）
+  all = all.concat(traceRect(PX + 24, PY + 38, PW - 48, 280, 10, 0.55, 1.0, RED_M, 500));
 
   // ---- 屏幕内的评分条 ----
   for (let i = 0; i < dims.length; i++) {
-    const by = PY + 68 + i * 58;
+    const by = PY + 72 + i * 58;
     const bw = 106;
     const bx = CX - bw / 2;
-    // 标签线
     all = all.concat(trace(bx - 60, by + 8, bx - 6, by + 8, 4, 0.35, 0.5, RED_L, 1000 + i * 40));
-    // 进度条底色
     all = all.concat(traceRect(bx, by, bw, 16, 4, 0.2, 0.4, RED_F, 1100 + i * 40));
-    // 进度条填充
     const fw = bw * (dims[i].val / 10);
     all = all.concat(traceRect(bx, by, fw, 16, 6, 0.5, 0.8, dims[i].color, 1200 + i * 40));
   }
 
   // ---- 综合评分数字区域 ----
   for (let r = 0; r < 4; r++) {
-    const ry = PY + 310;
+    const ry = PY + 280;
     all = all.concat(trace(CX - 30, ry, CX + 30, ry, 5, 0.4, 0.7, RED, 2000 + r));
   }
 
@@ -155,12 +152,12 @@ function buildLines(): L[] {
     all = all.concat(trace(app.lx, app.ly, tx, ty, 1, 0.1, 0.25, RED_F, 3500 + i));
   });
 
-  // ---- 四维度测量线 ----
+  // ---- 四维度测量线（端点贴近手机）----
   const measureCorners: { sx: number; sy: number; tx: number; ty: number }[] = [
-    { sx: PX - 10, sy: CY, tx: PX - 195, ty: CY },                     // 好用度 → 左
-    { sx: PX + PW + 20, sy: PY + 90, tx: PX + PW + 150, ty: PY + 150 },  // 隐私 → 右上
-    { sx: PX + PW + 20, sy: PY + PH - 90, tx: PX + PW + 150, ty: PY + PH - 10 }, // 商业模式 → 右下
-    { sx: CX, sy: PY + PH + 10, tx: CX, ty: PY + PH + 195 },           // 创新 → 下
+    { sx: PX - 5, sy: CY, tx: PX - 90, ty: CY },
+    { sx: PX + PW + 10, sy: PY + 90, tx: PX + PW + 100, ty: PY + 90 },
+    { sx: PX + PW + 10, sy: PY + PH - 90, tx: PX + PW + 100, ty: PY + PH - 90 },
+    { sx: CX, sy: PY + PH + 5, tx: CX, ty: PY + PH + 100 },
   ];
   dims.forEach((d, i) => {
     const { sx, sy, tx, ty } = measureCorners[i];
@@ -242,12 +239,12 @@ export default function PosterPage() {
           {/* ========== 文字：屏幕内评分标签 ========== */}
           {dims.map((d, i) => (
             <g key={`dl-${i}`}>
-              <text x={CX - 58} y={PY + 70 + i * 58 + 8}
+              <text x={CX - 58} y={PY + 74 + i * 58 + 8}
                     fontFamily="'JetBrains Mono', monospace" fontSize={14}
                     fill={INK} opacity={0.55} textAnchor="end" letterSpacing="0.08em">
                 {d.label}
               </text>
-              <text x={CX + 58} y={PY + 70 + i * 58 + 8}
+              <text x={CX + 58} y={PY + 74 + i * 58 + 8}
                     fontFamily="'JetBrains Mono', monospace" fontSize={14}
                     fill={d.color} opacity={0.6} textAnchor="start" fontWeight={600}>
                 {d.val}
@@ -256,12 +253,12 @@ export default function PosterPage() {
           ))}
 
           {/* ========== 文字：屏幕内综合评分 ========== */}
-          <text x={CX} y={PY + 320}
+          <text x={CX} y={PY + 288}
                 fontFamily="'JetBrains Mono', monospace" fontSize={36}
                 fill={INK} fontWeight={700} textAnchor="middle" opacity={0.7}>
             8.3
           </text>
-          <text x={CX} y={PY + 344}
+          <text x={CX} y={PY + 310}
                 fontFamily="'JetBrains Mono', monospace" fontSize={12}
                 fill={GRAY} textAnchor="middle" letterSpacing="0.15em" opacity={0.5}>
             OVERALL / 10
@@ -270,10 +267,10 @@ export default function PosterPage() {
           {/* ========== 文字：四维端点标签 ========== */}
           {dims.map((d, i) => {
             const corners: [number, number][] = [
-              [PX - 195, CY],                 // 好用度 → 左
-              [PX + PW + 150, PY + 150],      // 隐私 → 右上
-              [PX + PW + 150, PY + PH - 10],  // 商业模式 → 右下
-              [CX, PY + PH + 195],            // 创新 → 下
+              [PX - 90, CY],
+              [PX + PW + 100, PY + 90],
+              [PX + PW + 100, PY + PH - 90],
+              [CX, PY + PH + 100],
             ];
             const [tx, ty] = corners[i];
             return (
