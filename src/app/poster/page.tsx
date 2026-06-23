@@ -40,10 +40,10 @@ const apps = [
   { icon: "🎭", name: "Claude", lx: 590, ly: 150 },
   { icon: "🐋", name: "DeepSeek", lx: 90, ly: 450 },
   { icon: "💎", name: "Gemini", lx: 615, ly: 430 },
-  { icon: "🫘", name: "豆包", lx: 125, ly: 720 },
-  { icon: "🤖", name: "Copilot", lx: 595, ly: 700 },
-  { icon: "🔎", name: "Perplexity", lx: 95, ly: 920 },
-  { icon: "📝", name: "Notion", lx: 610, ly: 910 },
+  { icon: "🫘", name: "豆包", lx: 125, ly: 700 },
+  { icon: "🤖", name: "Copilot", lx: 595, ly: 680 },
+  { icon: "🔎", name: "Perplexity", lx: 95, ly: 860 },
+  { icon: "📝", name: "Notion", lx: 610, ly: 850 },
 ];
 
 // ---- 四个维度 ----
@@ -128,11 +128,11 @@ function buildLines(): L[] {
 
   // ---- 屏幕内的评分条 ----
   for (let i = 0; i < dims.length; i++) {
-    const by = PY + 62 + i * 48;
+    const by = PY + 68 + i * 58;
     const bw = 106;
     const bx = CX - bw / 2;
     // 标签线
-    all = all.concat(trace(bx - 60, by + 5, bx - 6, by + 5, 4, 0.35, 0.5, RED_L, 1000 + i * 40));
+    all = all.concat(trace(bx - 60, by + 8, bx - 6, by + 8, 4, 0.35, 0.5, RED_L, 1000 + i * 40));
     // 进度条底色
     all = all.concat(traceRect(bx, by, bw, 16, 4, 0.2, 0.4, RED_F, 1100 + i * 40));
     // 进度条填充
@@ -142,7 +142,7 @@ function buildLines(): L[] {
 
   // ---- 综合评分数字区域 ----
   for (let r = 0; r < 4; r++) {
-    const ry = PY + 270;
+    const ry = PY + 310;
     all = all.concat(trace(CX - 30, ry, CX + 30, ry, 5, 0.4, 0.7, RED, 2000 + r));
   }
 
@@ -156,16 +156,16 @@ function buildLines(): L[] {
   });
 
   // ---- 四维度测量线（从手机四角向外） ----
-  const corners: [number, number][] = [
-    [CX, PY - 20],
-    [PX + PW + 15, PY + 60],
-    [PX + PW + 15, PY + PH - 60],
-    [CX, PY + PH + 20],
+  const measureCorners: [number, number][] = [
+    [CX, PY - 25],
+    [PX + PW + 20, PY + 90],
+    [PX + PW + 20, PY + PH - 90],
+    [CX, PY + PH + 25],
   ];
   dims.forEach((d, i) => {
-    const [sx, sy] = corners[i];
-    const tx = sx + (i === 1 || i === 2 ? 120 : 0);
-    const ty = sy + (i === 0 ? -140 : i === 1 ? 80 : i === 2 ? 130 : 140);
+    const [sx, sy] = measureCorners[i];
+    const tx = sx + (i === 1 || i === 2 ? 130 : 0);
+    const ty = sy + (i === 0 ? -175 : i === 1 ? 60 : i === 2 ? 100 : 170);
     all = all.concat(trace(sx, sy, tx, ty, 6, 0.35, 0.7, d.color, 4000 + i * 10));
     for (let r = 0; r < 7; r++) {
       const a = (r / 7) * Math.PI * 2;
@@ -244,12 +244,12 @@ export default function PosterPage() {
           {/* ========== 文字：屏幕内评分标签 ========== */}
           {dims.map((d, i) => (
             <g key={`dl-${i}`}>
-              <text x={CX - 78} y={PY + 65 + i * 48 + 5}
+              <text x={CX - 78} y={PY + 70 + i * 58 + 8}
                     fontFamily="'JetBrains Mono', monospace" fontSize={14}
                     fill={INK} opacity={0.55} letterSpacing="0.08em">
                 {d.label}
               </text>
-              <text x={CX + 78} y={PY + 65 + i * 48 + 5}
+              <text x={CX + 78} y={PY + 70 + i * 58 + 8}
                     fontFamily="'JetBrains Mono', monospace" fontSize={14}
                     fill={d.color} opacity={0.6} textAnchor="end" fontWeight={600}>
                 {d.val}
@@ -258,12 +258,12 @@ export default function PosterPage() {
           ))}
 
           {/* ========== 文字：屏幕内综合评分 ========== */}
-          <text x={CX} y={PY + 280}
+          <text x={CX} y={PY + 320}
                 fontFamily="'JetBrains Mono', monospace" fontSize={36}
                 fill={INK} fontWeight={700} textAnchor="middle" opacity={0.7}>
             8.3
           </text>
-          <text x={CX} y={PY + 302}
+          <text x={CX} y={PY + 344}
                 fontFamily="'JetBrains Mono', monospace" fontSize={12}
                 fill={GRAY} textAnchor="middle" letterSpacing="0.15em" opacity={0.5}>
             OVERALL / 10
@@ -271,7 +271,7 @@ export default function PosterPage() {
 
           {/* ========== 文字：四维端点标签 ========== */}
           {dims.map((d, i) => {
-            const corners: [number, number][] = [[CX, PY - 160], [PX + PW + 135, PY + 50], [PX + PW + 135, PY + PH - 50], [CX, PY + PH + 160]];
+            const corners: [number, number][] = [[CX, PY - 220], [PX + PW + 160, PY + 80], [PX + PW + 160, PY + PH - 80], [CX, PY + PH + 210]];
             const [tx, ty] = corners[i];
             return (
               <g key={`ex-${i}`}>
@@ -311,39 +311,39 @@ export default function PosterPage() {
                 fill={GRAY} letterSpacing="0.1em" textAnchor="end">2026.06.23</text>
 
           {/* 左下 */}
-          <text x={48} y={H - 64} fontFamily="'Noto Serif SC', 'STSong', serif"
+          <text x={48} y={H - 80} fontFamily="'Noto Serif SC', 'STSong', serif"
                 fontSize={22} fill={INK} fontWeight={400} letterSpacing="0.06em">
             将完整之物分解为零件，理解其构造。
           </text>
-          <text x={48} y={H - 38} fontFamily="'JetBrains Mono', monospace"
+          <text x={48} y={H - 54} fontFamily="'JetBrains Mono', monospace"
                 fontSize={13} fill={GRAY} letterSpacing="0.1em">
             数字经济课程实践项目 · 智能体编程 · 2026
           </text>
 
           {/* 右下诊断 */}
-          <text x={W - 44} y={H - 72} fontFamily="'JetBrains Mono', monospace"
+          <text x={W - 44} y={H - 80} fontFamily="'JetBrains Mono', monospace"
                 fontSize={16} fill={INK} letterSpacing="0.12em" textAnchor="end" fontWeight={500}>
             APP DIAGNOSIS
           </text>
-          <text x={W - 44} y={H - 52} fontFamily="'JetBrains Mono', monospace"
+          <text x={W - 44} y={H - 60} fontFamily="'JetBrains Mono', monospace"
                 fontSize={13} fill={GRAY} letterSpacing="0.08em" textAnchor="end">
             四维评分 · 隐私评级 · 社区协作
           </text>
 
           {/* 底部标签 */}
-          <rect x={48} y={H - 24} width={110} height={20} fill="none"
+          <rect x={48} y={H - 32} width={110} height={20} fill="none"
                 stroke={RED} strokeWidth={0.8} opacity={0.35} />
-          <text x={103} y={H - 10} fontFamily="'JetBrains Mono', monospace" fontSize={12}
+          <text x={103} y={H - 18} fontFamily="'JetBrains Mono', monospace" fontSize={12}
                 fill={RED} opacity={0.45} textAnchor="middle" letterSpacing="0.08em">A→C 隐私评级</text>
 
-          <rect x={170} y={H - 24} width={110} height={20} fill="none"
+          <rect x={170} y={H - 32} width={110} height={20} fill="none"
                 stroke={RED_M} strokeWidth={0.8} opacity={0.35} />
-          <text x={225} y={H - 10} fontFamily="'JetBrains Mono', monospace" fontSize={12}
+          <text x={225} y={H - 18} fontFamily="'JetBrains Mono', monospace" fontSize={12}
                 fill={RED_M} opacity={0.45} textAnchor="middle" letterSpacing="0.08em">四维评分体系</text>
 
-          <rect x={292} y={H - 24} width={110} height={20} fill="none"
+          <rect x={292} y={H - 32} width={110} height={20} fill="none"
                 stroke={INK} strokeWidth={0.8} opacity={0.3} />
-          <text x={347} y={H - 10} fontFamily="'JetBrains Mono', monospace" fontSize={12}
+          <text x={347} y={H - 18} fontFamily="'JetBrains Mono', monospace" fontSize={12}
                 fill={GRAY} opacity={0.45} textAnchor="middle" letterSpacing="0.08em">社区协作开源</text>
 
           {/* 右侧情绪色标记 */}
