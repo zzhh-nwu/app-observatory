@@ -207,7 +207,7 @@ export default function PosterPage() {
   const lines = buildLines();
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-3 md:p-6" style={{ background: "#1a1a1a" }}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6" style={{ background: "#1a1a1a" }}>
       <div className="relative" style={{ width: W, height: H, maxWidth: "100vw", maxHeight: "98vh" }}>
         <svg viewBox={`0 0 ${W} ${H}`} xmlns="http://www.w3.org/2000/svg"
              style={{ width: "100%", height: "100%", background: PAPER }}>
