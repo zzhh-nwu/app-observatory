@@ -30,8 +30,8 @@ const PAPER = "#faf8f5";
 // ---- 伪随机 ----
 function rng(i: number) { return ((i * 7919 + 271) % 10007) / 10007; }
 
-// ---- 手机参数（放大 1.4x）----
-const PW = 182; const PH = 364; const PR = 20;
+// ---- 手机参数 ----
+const PW = 220; const PH = 420;
 const PX = CX - PW / 2; const PY = CY - PH / 2;
 
 // ---- App 标本 ----
@@ -121,15 +121,15 @@ function longLines(count: number, op: number, sw: number, c: string, seed: numbe
 function buildLines(): L[] {
   let all: L[] = [];
 
-  // ---- 核心：手机轮廓反复描摹 ----
-  all = all.concat(traceRect(PX, PY, PW, PH, 22, 0.82, 1.8, RED, 1));
-  // 屏幕区域（加高，罩住所有内部文字）
-  all = all.concat(traceRect(PX + 24, PY + 38, PW - 48, 280, 10, 0.55, 1.0, RED_M, 500));
+  // ---- 核心：手机轮廓 ----
+  all = all.concat(traceRect(PX, PY, PW, PH, 24, 0.82, 2.0, RED, 1));
+  // 屏幕区域
+  all = all.concat(traceRect(PX + 30, PY + 48, PW - 60, 330, 12, 0.55, 1.0, RED_M, 500));
 
   // ---- 屏幕内的评分条 ----
   for (let i = 0; i < dims.length; i++) {
-    const by = PY + 80 + i * 58;
-    const bw = 112;
+    const by = PY + 90 + i * 62;
+    const bw = 130;
     const bx = CX - bw / 2;
     all = all.concat(traceRect(bx, by, bw, 16, 4, 0.2, 0.4, RED_F, 1100 + i * 40));
     const fw = bw * (dims[i].val / 10);
@@ -138,8 +138,8 @@ function buildLines(): L[] {
 
   // ---- 综合评分数字区域 ----
   for (let r = 0; r < 4; r++) {
-    const ry = PY + 280;
-    all = all.concat(trace(CX - 30, ry, CX + 30, ry, 5, 0.4, 0.7, RED, 2000 + r));
+    const ry = PY + 330;
+    all = all.concat(trace(CX - 40, ry, CX + 40, ry, 5, 0.4, 0.7, RED, 2000 + r));
   }
 
   // ---- App 标本框 ----
@@ -239,13 +239,13 @@ export default function PosterPage() {
           {dims.map((d, i) => (
             <g key={`dl-${i}`}>
               {/* 标签在上 */}
-              <text x={CX} y={PY + 62 + i * 58}
-                    fontFamily="'JetBrains Mono', monospace" fontSize={13}
+              <text x={CX} y={PY + 74 + i * 62}
+                    fontFamily="'JetBrains Mono', monospace" fontSize={14}
                     fill={INK} opacity={0.55} textAnchor="middle" letterSpacing="0.08em">
                 {d.label}
               </text>
               {/* 值在右 */}
-              <text x={CX + 64} y={PY + 82 + i * 58 + 8}
+              <text x={CX + 72} y={PY + 92 + i * 62 + 8}
                     fontFamily="'JetBrains Mono', monospace" fontSize={14}
                     fill={d.color} opacity={0.6} textAnchor="start" fontWeight={600}>
                 {d.val}
@@ -254,12 +254,12 @@ export default function PosterPage() {
           ))}
 
           {/* ========== 文字：屏幕内综合评分 ========== */}
-          <text x={CX} y={PY + 288}
-                fontFamily="'JetBrains Mono', monospace" fontSize={36}
+          <text x={CX} y={PY + 340}
+                fontFamily="'JetBrains Mono', monospace" fontSize={40}
                 fill={INK} fontWeight={700} textAnchor="middle" opacity={0.7}>
             8.3
           </text>
-          <text x={CX} y={PY + 310}
+          <text x={CX} y={PY + 366}
                 fontFamily="'JetBrains Mono', monospace" fontSize={12}
                 fill={GRAY} textAnchor="middle" letterSpacing="0.15em" opacity={0.5}>
             OVERALL / 10
