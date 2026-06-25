@@ -6,10 +6,6 @@ import { ReviewCard } from "@/components/ui/review-card";
 import { mockUsers, mockReviews } from "@/lib/mock-data";
 import { Badge } from "@/lib/types";
 
-export function generateStaticParams() {
-  return Object.keys(mockUsers).map((username) => ({ username }));
-}
-
 const badgeConfig: Record<Badge, { emoji: string; label: string; color: string }> = {
   "评测新星": { emoji: "⭐", label: "评测新星", color: "bg-interact/10 text-interact" },
   "资深评测官": { emoji: "🏅", label: "资深评测官", color: "bg-primary/10 text-primary" },
