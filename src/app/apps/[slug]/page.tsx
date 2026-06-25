@@ -8,6 +8,10 @@ import { ScoreBars } from "@/components/ui/score-bar";
 import { ReviewCard } from "@/components/ui/review-card";
 import { mockApps, mockReviews } from "@/lib/mock-data";
 
+export function generateStaticParams() {
+  return mockApps.map((app) => ({ slug: app.slug }));
+}
+
 interface AppDetailPageProps {
   params: Promise<{ slug: string }>;
 }
